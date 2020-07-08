@@ -25,7 +25,7 @@
                 var obj = this;
                 var url = "";
                 if (obj.goodId == 1) {
-                    url = "json/goods.json"
+                    url = "json\\goods.json"
                 } else if (obj.goodId == 2) {
                     url = "json/goods1.json"
                 }

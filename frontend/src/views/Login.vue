@@ -12,7 +12,8 @@
                 </el-form-item>
 
                 <el-form-item prop="password">
-                    <el-input prefix-icon="el-icon-lock" v-model="loginForm.password" type="password" placeholder="密码"></el-input>
+                    <el-input prefix-icon="el-icon-lock" v-model="loginForm.password" type="password"
+                              placeholder="密码"></el-input>
                 </el-form-item>
 
                 <el-form-item class="btns">

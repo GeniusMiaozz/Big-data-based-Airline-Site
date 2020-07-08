@@ -15,3 +15,11 @@ Mock.mock('/register_x','post',function (options) {
         status: 200
     }
 })
+
+Mock.mock('/cheeps','get',function (options) {
+    console.log(options)
+    return{
+
+    }
+
+})
