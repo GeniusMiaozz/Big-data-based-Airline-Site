@@ -4,6 +4,7 @@ import Login from "../views/Login";
 import First from "../views/First";
 import Home from "../views/Home";
 import Register from "../views/Register";
+import AirSearch from "../views/AirSearch";
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,11 @@ const routes = [
         path: '/first',
         name: 'first',
         component: First
+    },
+    {
+        path: '/search',
+        name: 'search',
+        component: AirSearch
     }
 ]
 
@@ -44,7 +50,7 @@ router.beforeEach((to, from, next) => {
     // to 将要访问的路径
     // from 从哪个路径跳转而来
     // next 是一个函数表示放行
-    if (to.path === '/login' || to.path ==='/register') return next();
+    if (to.path === '/login' || to.path === '/register') return next();
     // 获取token
     const tokenStr = window.sessionStorage.getItem('token')
     if (!tokenStr) return next('/login');

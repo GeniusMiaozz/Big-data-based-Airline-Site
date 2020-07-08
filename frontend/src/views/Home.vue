@@ -1,17 +1,23 @@
 <template>
     <div>
-        <Header/>
-        <Booking/>
+        <Header :index="index" :username="username" />
+        <HomeMain/>
     </div>
 </template>
 
 <script>
     import Header from "../components/Header";
-    import Booking from "../components/Booking";
+    import HomeMain from "../components/HomeMain";
 
     export default {
         name: "Home",
-        components: {Booking, Header},
+        components: {HomeMain, Header},
+        data(){
+            return{
+                index:1,
+                username:'username'
+            }
+        }
     }
 </script>
 

@@ -2,16 +2,20 @@
     <div>
         <b-navbar toggleable="lg" type="dark" variant="dark">
             <b-container>
-                <b-navbar-brand href="#">Air</b-navbar-brand>
+                <b-navbar-brand href="#" to="/home">Air</b-navbar-brand>
 
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
                 <b-collapse id="nav-collapse" is-nav>
                     <b-navbar-nav>
-                        <b-nav-item href="#" active>首页</b-nav-item>
-                        <b-nav-item href="#">航班查询</b-nav-item>
-                        <b-nav-item href="#">会员专区</b-nav-item>
-                        <b-nav-item href="#">订单管理</b-nav-item>
+                        <b-nav-item v-if="index===1" active to="/home">首页</b-nav-item>
+                        <b-nav-item v-else to="/home">首页</b-nav-item>
+                        <b-nav-item v-if="index===2" active to="/search">航班查询</b-nav-item>
+                        <b-nav-item v-else to="/search">航班查询</b-nav-item>
+                        <b-nav-item v-if="index===3" active href="#">会员专区</b-nav-item>
+                        <b-nav-item v-else href="#">会员专区</b-nav-item>
+                        <b-nav-item v-if="index===4" active href="#">订单管理</b-nav-item>
+                        <b-nav-item v-else href="#">订单管理</b-nav-item>
                     </b-navbar-nav>
 
                     <!-- Right aligned nav items -->
@@ -35,11 +39,12 @@
 <script>
     export default {
         name: "Header",
-        data() {
-            return {
-                username: 'username'
-            }
-        },
+        // data() {
+        //     return {
+        //         username: 'username'
+        //     }
+        // },
+        props: ['index','username'],
         methods: {
             logout() {
                 window.sessionStorage.removeItem('token')

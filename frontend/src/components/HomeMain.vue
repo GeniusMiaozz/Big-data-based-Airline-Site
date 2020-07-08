@@ -53,7 +53,7 @@
                             </b-row>
                             <b-row align-h="center">
                                 <b-col>
-                                    {{item.data_x}}
+                                    {{item.date_x}}
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -136,7 +136,7 @@
 
 <script>
     export default {
-        name: "Booking",
+        name: "HomeMain",
         data() {
             return {
                 slide: 0,
@@ -154,9 +154,9 @@
             },
 
             loadCheepFlights() {
-                var obj = this;
-                var url1 = "json\\cheapFlights.json"
-                var url2 = "json\\slidelist.json"
+                const obj = this;
+                const url1 = "json\\cheapFlights.json";
+                const url2 = "json\\slidelist.json";
                 this.$axios.get(url1).then(
                     function (res) {
                         obj.cheapFlights = res.data;

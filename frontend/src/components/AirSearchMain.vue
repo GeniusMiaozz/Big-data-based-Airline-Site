@@ -1,0 +1,159 @@
+<template>
+    <b-container class="small-margin">
+        <div role="tablist">
+            <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                    <b-button block v-b-toggle.accordion-1 variant="outline">查询机票</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+                    <b-card-body>
+                        <b-container>
+                            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                                <b-row align-h="start">
+                                    <b-col cols="6">
+                                        <b-form-group
+                                                id="input-group-1"
+                                                label="出发城市"
+                                                label-for="input-1"
+                                        >
+                                            <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.city_from"
+                                                    required
+                                                    placeholder=""
+                                            ></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col cols="6">
+                                        <b-form-group
+                                                id="input-group-2"
+                                                label="到达城市"
+                                                label-for="input-2"
+                                        >
+                                            <b-form-input
+                                                    id="input-2"
+                                                    v-model="form.city_to"
+                                                    required
+                                                    placeholder=""
+                                            ></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row align-h="start">
+                                    <b-col>
+                                        <b-form-group
+                                                id="input-group-3"
+                                                label="出发日期"
+                                                label-for="input-3">
+                                            <b-form-datepicker v-model="form.date_start"
+                                                               class="mb-2"
+                                                               required
+                                            >
+
+                                            </b-form-datepicker>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+
+                                <b-row align-h="start">
+                                    <b-col cols="6">
+                                        <b-form-group id="input-group-4" label="仓位:" label-for="input-4">
+                                            <b-form-select
+                                                    id="input-4"
+                                                    v-model="form.Position"
+                                                    :options="Position"
+                                                    required
+                                            ></b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row align-h="end">
+                                    <b-col cols="6">
+                                        <b-button type="reset" variant="danger">复位</b-button>
+                                    </b-col>
+                                    <b-col cols="6">
+                                        <b-button type="submit" variant="primary">查询</b-button>
+                                    </b-col>
+                                </b-row>
+                            </b-form>
+                        </b-container>
+                    </b-card-body>
+                </b-collapse>
+            </b-card>
+
+            <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                    <b-button block v-b-toggle.accordion-2 variant="outline">选择座位</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+                    <b-card-body>
+                        <!--                        这里放入相应的div-->
+                    </b-card-body>
+                </b-collapse>
+            </b-card>
+
+            <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                    <b-button block v-b-toggle.accordion-3 variant="outline">添加乘机人</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+                    <b-card-body>
+                        <!--                        这里放入相应的div-->
+                    </b-card-body>
+                </b-collapse>
+            </b-card>
+
+        </div>
+    </b-container>
+</template>
+
+<script>
+    export default {
+        name: "AirSearchMain",
+        data() {
+            return {
+
+                form: {
+                    city_from: '',
+                    city_to: '',
+                    name: '',
+                    date_start: '',
+                    Position: null,
+                },
+                Position: [
+                    {text: '默认', value: null},
+                    '经济舱', '头等舱', '商务舱'
+                ],
+                show: true
+            }
+        },
+        methods: {
+            onSubmit(evt) {
+                evt.preventDefault()
+                alert(JSON.stringify(this.form))
+            },
+            onReset(evt) {
+                evt.preventDefault()
+                // Reset our form values
+                this.form.city_from = ''
+                this.form.city_to = ''
+                this.form.name = ''
+                this.form.date_start = ''
+                this.form.Position = null
+                // Trick to reset/clear native browser form validation state
+                this.show = false
+                this.$nextTick(() => {
+                    this.show = true
+                })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .small-margin {
+        padding: 0 2em;
+        margin-top: 1em;
+    }
+
+</style>
