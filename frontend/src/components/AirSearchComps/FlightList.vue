@@ -64,7 +64,21 @@
         data() {
             return {
                 show: false,
-                tickets: []
+                tickets: [
+                    {
+                        "id": 2,
+                        "airline": "东方航空",
+                        "flight_number": "MU5104",
+                        "departure_time": "09:00",
+                        "landing_time": "11:15",
+                        "departure_airport": "首都机场T2",
+                        "landing_airport": "虹桥国际机场T2",
+                        "economy_class": "1,010",
+                        "s_economy_class": "2,010",
+                        "first_class": "3,090",
+                        "flight_time": "02小时15分钟"
+                    }
+                ]
             }
         },
         methods: {

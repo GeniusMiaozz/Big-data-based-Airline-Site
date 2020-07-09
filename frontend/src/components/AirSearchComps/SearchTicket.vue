@@ -1,7 +1,7 @@
 <template>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
         <b-row align-h="start">
-            <b-col cols="6">
+            <b-col cols="5">
                 <b-form-group
                         id="input-group-1"
                         label="出发城市"
@@ -15,7 +15,12 @@
                     ></b-form-input>
                 </b-form-group>
             </b-col>
-            <b-col cols="6">
+            <b-col cols="2" style="text-align: center">
+                <b-button variant="outline-primary" class="button_x" @click="swapFromTo">
+                    <b-icon-arrow-repeat></b-icon-arrow-repeat>
+                </b-button>
+            </b-col>
+            <b-col cols="5">
                 <b-form-group
                         id="input-group-2"
                         label="到达城市"
@@ -40,7 +45,6 @@
                                        class="mb-2"
                                        required
                     >
-
                     </b-form-datepicker>
                 </b-form-group>
             </b-col>
@@ -71,6 +75,7 @@
 
 <script>
     import Msg from "./msg.js"
+
     export default {
         name: "SearchTicket",
         data() {
@@ -94,7 +99,7 @@
             onSubmit(evt) {
                 evt.preventDefault()
                 console.log(JSON.stringify(this.form))
-                Msg.$emit("val","1")
+                Msg.$emit("val", "1")
             },
             onReset(evt) {
                 evt.preventDefault()
@@ -110,10 +115,18 @@
                     this.show = true
                 })
             },
+            swapFromTo() {
+                [this.form.city_to, this.form.city_from] = [this.form.city_from, this.form.city_to]
+            }
         },
     }
 </script>
 
 <style scoped>
-
+    .button_x {
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        margin-top: 25px;
+    }
 </style>
