@@ -39,11 +39,6 @@
 <script>
     export default {
         name: "Header",
-        // data() {
-        //     return {
-        //         username: 'username'
-        //     }
-        // },
         props: ['index','username'],
         methods: {
             logout() {
