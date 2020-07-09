@@ -49,22 +49,27 @@
                 </b-form-group>
             </b-col>
         </b-row>
-
         <b-row align-h="start">
             <b-col cols="6">
-                <b-form-group id="input-group-4" label="仓位:" label-for="input-4">
+                <b-form-group id="input-group-4" label="舱位:" label-for="input-4">
                     <b-form-select
                             id="input-4"
                             v-model="form.Position"
-                            :options="Position"
+                            :options="Positions"
                             required
                     ></b-form-select>
+                </b-form-group>
+            </b-col>
+            <b-col cols="6">
+                <b-form-group id="input-group-5" label="乘机人数:" label-for="input5">
+                    <b-form-select id="input5" v-model="form.num" :options="nums" required>
+                    </b-form-select>
                 </b-form-group>
             </b-col>
         </b-row>
         <b-row align-h="start">
             <b-col cols="6">
-                <b-button type="reset" variant="danger">复位</b-button>
+                <b-button type="reset" variant="dark">复位</b-button>
             </b-col>
             <b-col cols="6">
                 <b-button type="submit" variant="primary">查询</b-button>
@@ -80,16 +85,17 @@
         name: "SearchTicket",
         data() {
             return {
-
                 form: {
                     city_from: '',
                     city_to: '',
-                    name: '',
                     date_start: '',
-                    Position: null,
+                    Position: '经济舱',
+                    num: 1
                 },
-                Position: [
-                    {text: '默认', value: null},
+                nums:[
+                    1,2,3,4
+                ],
+                Positions: [
                     '经济舱', '头等舱', '商务舱'
                 ],
                 show: true,
@@ -99,16 +105,16 @@
             onSubmit(evt) {
                 evt.preventDefault()
                 console.log(JSON.stringify(this.form))
-                Msg.$emit("val", "1")
+                Msg.$emit("val", this.form)
             },
             onReset(evt) {
                 evt.preventDefault()
                 // Reset our form values
                 this.form.city_from = ''
                 this.form.city_to = ''
-                this.form.name = ''
                 this.form.date_start = ''
                 this.form.Position = null
+                this.form.number = 1
                 // Trick to reset/clear native browser form validation state
                 this.show = false
                 this.$nextTick(() => {
