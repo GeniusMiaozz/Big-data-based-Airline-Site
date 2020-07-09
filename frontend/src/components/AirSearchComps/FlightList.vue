@@ -1,5 +1,5 @@
 <template>
-    <div class="small-margin no-padding">
+    <div class="small-margin no-padding" v-show="show">
         <b-row align-h="around" class="card_x">
             <b-col class="button-center">
                 <b-button variant="outline-primary">默认排序</b-button>
@@ -15,56 +15,77 @@
             </b-col>
         </b-row>
 
-        <b-card bg-variant="light" text-variant="dark" class="card_x">
+        <b-card bg-variant="light" text-variant="dark" class="card_x" v-for="item in tickets" :key="item.id">
             <b-row style="margin-bottom: 1em">
-                <b-col><P style="font-size: 15px;margin: 2px">东方航空|MU5104|</P></b-col>
+                <b-col><P style="font-size: 15px;margin: 2px">{{item.airline}}|{{item.flight_number}}|</P></b-col>
             </b-row>
             <b-row>
                 <b-col cols="4" style="text-align: right">
-                    <time>09:00</time>
+                    <time>{{item.departure_time}}</time>
                 </b-col>
                 <b-col cols="4" style="text-align: center">
-                    02小时15分钟
+                    {{item.flight_time}}
                 </b-col>
                 <b-col cols="4" style="text-align: left">
-                    <time>11:15</time>
+                    <time>{{item.landing_time}}</time>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col cols="4" style="text-align: right">
-                    首都机场T2
+                    {{item.departure_airport}}
                 </b-col>
                 <b-col cols="4" style="text-align: center">
                     <img src="../../../public/imgs/plane-logo.png" alt="logo" width="31px">
                 </b-col>
                 <b-col cols="4" style="text-align: left">
-                    虹桥国际机场T2
+                    {{item.landing_airport}}
                 </b-col>
             </b-row>
             <b-row style="margin-top: 1em">
                 <b-col class="button-center">
-                    <b-button variant="outline-success">经济舱：￥1,010</b-button>
+                    <b-button variant="outline-success">经济舱：￥{{item.economy_class}}</b-button>
                 </b-col>
                 <b-col class="button-center">
-                    <b-button variant="outline-success">超级经济舱：￥--</b-button>
-
+                    <b-button variant="outline-success">超级经济舱：￥{{item.s_economy_class}}</b-button>
                 </b-col>
                 <b-col class="button-center">
-                    <b-button variant="outline-success"> 公务/头等舱：￥3,090</b-button>
+                    <b-button variant="outline-success"> 公务/头等舱：￥{{item.first_class}}</b-button>
                 </b-col>
             </b-row>
-        </b-card>
-        <b-card bg-variant="light" text-variant="dark" class="card_x">
-            <b-card-text>
-                机票样式待设计
-            </b-card-text>
         </b-card>
     </div>
 </template>
 
 <script>
+    import Msg from "./msg.js"
+
     export default {
-        name: "FlightList"
+        name: "FlightList",
+        data() {
+            return {
+                show: false,
+                tickets: []
+            }
+        },
+        methods: {
+            loadTickets() {
+                const obj = this;
+                const url = "json\\ticketsList.json";
+                this.$axios.get(url).then(
+                    function (res) {
+                        obj.tickets = res.data;
+                        obj.show = true;
+                    }
+                )
+            }
+        },
+        mounted: function () {
+            var _this = this
+            Msg.$on('val', function (m) {
+                _this.loadTickets()
+            })
+        }
+
     }
 </script>
 

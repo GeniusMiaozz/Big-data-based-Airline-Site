@@ -70,6 +70,7 @@
 </template>
 
 <script>
+    import Msg from "./msg.js"
     export default {
         name: "SearchTicket",
         data() {
@@ -92,7 +93,8 @@
         methods: {
             onSubmit(evt) {
                 evt.preventDefault()
-                alert(JSON.stringify(this.form))
+                console.log(JSON.stringify(this.form))
+                Msg.$emit("val","1")
             },
             onReset(evt) {
                 evt.preventDefault()
@@ -107,8 +109,8 @@
                 this.$nextTick(() => {
                     this.show = true
                 })
-            }
-        }
+            },
+        },
     }
 </script>
 
