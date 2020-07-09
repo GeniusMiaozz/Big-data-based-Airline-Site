@@ -8,6 +8,8 @@ import './assets/css/global.css'
 import {BootstrapVue,IconsPlugin} from "bootstrap-vue";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import echarts from 'echarts'
+
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
@@ -15,7 +17,7 @@ Vue.use(ElementUI)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.prototype.$message = ElementUI.Message
-
+Vue.prototype.$echarts = echarts;
 
 require("./assets/axios/mock")
 new Vue({

@@ -2,6 +2,7 @@
     <div>
         <Header :index="index" :username="username"/>
         <AirSearchMain/>
+
     </div>
 </template>
 
@@ -17,7 +18,7 @@
                 index: 2,
                 username: 'search'
             }
-        }
+        },
     }
 </script>
 

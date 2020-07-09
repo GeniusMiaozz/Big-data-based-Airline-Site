@@ -35,7 +35,6 @@
             </b-card>
         </div>
         <FlightList/>
-
     </b-container>
 </template>
 
