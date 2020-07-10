@@ -25,7 +25,7 @@ func SignUp(info *data.Member_Register) (int, error) {
 	}
 
 	err = db.Insert("Member_Register", nil,
-		[]string{strconv.FormatInt(utils.GenerateId(), 10),
+		[]string{strconv.FormatInt(utils.GenerateSnowFlakeId(), 10),
 			strconv.FormatInt(info.Telephone, 10),
 			info.Password})
 	if err != nil {
@@ -39,24 +39,24 @@ func SignUp(info *data.Member_Register) (int, error) {
 登录逻辑
 状态码：0-正常；1-内部错误；2-逻辑错误
 */
-func SignIn(info *data.Member_Register) (int, error) {
+func SignIn(info *data.Member_Register) (int, string, error) {
 	db, _ := r_db.Connect()
 	var rows *sql.Rows
 	var err error
-	rows, err = db.Query([]string{"password"},
+	rows, err = db.Query([]string{"MEMBER_NO", "PASSWORD"},
 		[]string{"Member_Register"}, "TELEPHONE="+strconv.FormatInt(info.Telephone, 10))
 	defer rows.Close()
 
 	if err != nil {
-		return 1, err
+		return 1, "", err
 	}
 
-	var password string
+	var member_no, password string
 	for rows.Next() {
-		rows.Scan(&password)
+		rows.Scan(&member_no, &password)
 		if password == info.Password {
-			return 0, nil
+			return 0, member_no, nil
 		}
 	}
-	return 2, errors.New("密码不正确或帐号不存在")
+	return 2, "", errors.New("密码不正确或帐号不存在")
 }

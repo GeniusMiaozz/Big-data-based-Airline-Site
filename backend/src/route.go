@@ -8,6 +8,7 @@ import (
 
 	"Airline/data"
 	"Airline/service/identity"
+	"Airline/utils"
 )
 
 /*
@@ -51,7 +52,7 @@ func SignIn(ctx iris.Context) {
 		return
 	}
 	password := ctx.PostValue("password")
-	status, err := identity.SignIn(
+	status, member_no, err := identity.SignIn(
 		&data.Member_Register{
 			Telephone: telephone,
 			Password:  password,
@@ -67,6 +68,15 @@ func SignIn(ctx iris.Context) {
 			})
 		}
 	}
+	//成功登录，提供一个token
+	token, err := utils.GenerateJwtToken(member_no, ctx.RemoteAddr())
+	if err != nil {
+		ctx.StatusCode(500)
+		log.Println(err.Error())
+	}
+	ctx.JSON(iris.Map{
+		"token": token,
+	})
 }
 
 /*

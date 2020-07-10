@@ -1,1 +1,4 @@
 r_database = "mysql"
+[jwt]
+secret = "airline"
+method = "HS384"

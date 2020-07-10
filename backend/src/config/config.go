@@ -8,6 +8,10 @@ import (
 
 type system_config struct {
 	RDatabase string `toml:"r_database"`
+	Jwt       struct {
+		Secret string `toml:"secret"`
+		Method string `toml:"method"`
+	} `toml:"jwt"`
 }
 
 var (
