@@ -31,14 +31,14 @@
         data() {
             return {
                 loginForm: {
-                    username: 'admin',
+                    username: '15996618001',
                     password: '123456'
                 },
                 //表单的验证规则对象
                 loginFormRules: {
                     username: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: 'blur'}
+                        {min: 3, max: 15, message: "长度在 3 到 15 个字符", trigger: 'blur'}
                     ],
                     password: [
                         {required: true, message: '请输入登录密码', trigger: 'blur'},
@@ -51,10 +51,29 @@
             login_x() {
                 this.$refs.loginFormRef.validate(async valid => {
                     if (!valid) return;
-                    const {data: res} = await this.$axios.post('/login_x', this.loginForm)
-                    console.log(res);
-                    window.sessionStorage.setItem('token', res.token)
-                    if (res.status !== 200) {
+
+                    //连接后台go服务器部分
+                    const url='http://localhost:8080/signin'
+                    var params = new URLSearchParams();
+                    params.append('telephone',this.loginForm.username)
+                    params.append('password',this.loginForm.password)
+
+                    var status=400;
+
+                    await this.$axios.post(
+                        url,params
+                    ).then(
+                        function (response) {
+                            console.log(response);
+                            status=response.status
+                        }
+                    ).catch(function (error) {
+                            console.log(error.response.status)
+                            status=error.response.status
+                    });
+
+                    // window.sessionStorage.setItem('token', res.token)
+                    if (status !== 200) {
                         return this.$message.error("登录失败！")
                     }
                     this.$message({

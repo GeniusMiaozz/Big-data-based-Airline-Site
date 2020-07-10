@@ -9,8 +9,10 @@ import {BootstrapVue,IconsPlugin} from "bootstrap-vue";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import echarts from 'echarts'
+import vueResource from 'vue-resource'
 
-
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+Vue.use(vueResource)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(ElementUI)

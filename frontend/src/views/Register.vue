@@ -47,14 +47,14 @@
 
             return {
                 registerForm: {
-                    username: 'admin',
+                    username: '15996618001',
                     password: '123456',
                     password_x: '123456'
                 },
                 registerFormRules: {
                     username: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: 'blur'}
+                        {min: 3, max: 15, message: "长度在 3 到 15 个字符", trigger: 'blur'}
                     ],
                     password: [
                         {required: true, message: '请输入登录密码', trigger: 'blur'},
@@ -73,10 +73,25 @@
             register_x() {
                 this.$refs.registerFormRef.validate(async valid => {
                     if (!valid) return;
-                    const {data: res} = await this.$axios.post('/register_x', this.registerForm)
-                    console.log(res);
-                    window.sessionStorage.setItem('token', res.token);
-                    if (res.status !== 200) {
+
+                    //连接后台go服务器部分
+                    var params = new URLSearchParams();
+                    params.append('telephone', this.registerForm.username)
+                    params.append('password', this.registerForm.password)
+                    var status = 400
+                    await this.$axios.post('http://localhost:8080/signup', params).then(
+                        function (response) {
+                            console.log(response);
+                            status = response.status
+                        }
+                    ).catch(
+                        function (error) {
+                            console.log(error.response.status)
+                            status = error.response.status
+                        }
+                    )
+                    // window.sessionStorage.setItem('token', res.token);
+                    if (status !== 200) {
                         return this.$message.error("注册失败！");
                     }
                     this.$message({
