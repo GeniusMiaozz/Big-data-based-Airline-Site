@@ -90,7 +90,6 @@
                             status = error.response.status
                         }
                     )
-                    // window.sessionStorage.setItem('token', res.token);
                     if (status !== 200) {
                         return this.$message.error("注册失败！");
                     }
@@ -98,7 +97,7 @@
                         message: "注册成功",
                         type: 'success'
                     })
-                    await this.$router.push('/home');
+                    await this.$router.push('/login');
                 })
             }
         }

@@ -65,14 +65,13 @@
                     ).then(
                         function (response) {
                             console.log(response);
+                            window.sessionStorage.setItem('token',response.data.token)
                             status=response.status
                         }
                     ).catch(function (error) {
                             console.log(error.response.status)
                             status=error.response.status
                     });
-
-                    // window.sessionStorage.setItem('token', res.token)
                     if (status !== 200) {
                         return this.$message.error("登录失败！")
                     }

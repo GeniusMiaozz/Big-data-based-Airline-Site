@@ -58,8 +58,8 @@ router.beforeEach((to, from, next) => {
     // next 是一个函数表示放行
     if (to.path === '/login' || to.path === '/register' ||to.path==='/charts') return next();
     // 获取token
-    // const tokenStr = window.sessionStorage.getItem('token')
-    // if (!tokenStr) return next('/login');
+    const tokenStr = window.sessionStorage.getItem('token')
+    if (!tokenStr) return next('/login');
     next()
 })
 
