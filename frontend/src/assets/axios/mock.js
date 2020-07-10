@@ -8,18 +8,15 @@ Mock.mock('/login_x', 'post', function (options) {
     }
 })
 
-Mock.mock('/register_x','post',function (options) {
+Mock.mock('/register_x', 'post', function (options) {
     console.log(options)
-    return{
+    return {
         token: "this_is_token_r",
         status: 200
     }
 })
 
-Mock.mock('/cheeps','get',function (options) {
+Mock.mock('/cheeps', 'get', function (options) {
     console.log(options)
-    return{
-
-    }
-
+    return {}
 })
