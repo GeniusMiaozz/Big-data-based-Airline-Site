@@ -75,7 +75,7 @@
                     if (!valid) return;
 
                     //连接后台go服务器部分
-                    var params = new URLSearchParams();
+                    const params = new URLSearchParams();
                     params.append('telephone', this.registerForm.username)
                     params.append('password', this.registerForm.password)
                     var status = 400

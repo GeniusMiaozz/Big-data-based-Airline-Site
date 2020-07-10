@@ -54,7 +54,7 @@
 
                     //连接后台go服务器部分
                     const url='http://localhost:8080/signin'
-                    var params = new URLSearchParams();
+                    const params = new URLSearchParams();
                     params.append('telephone',this.loginForm.username)
                     params.append('password',this.loginForm.password)
 
