@@ -17,6 +17,8 @@ func SignUp(info *data.Member_Register) (int, error) {
 	db, _ := r_db.Connect()
 	rows, err := db.Query([]string{"*"}, []string{"Member_Register"},
 		"TELEPHONE="+strconv.FormatInt(info.Telephone, 10))
+	defer rows.Close()
+
 	if err != nil {
 		return 1, err
 	}
