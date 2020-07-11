@@ -32,6 +32,7 @@ func main() {
 	//route
 	app.Post("/signup", SignUp)
 	app.Post("/signin", SignIn)
+	app.Get("/searchforflight", SearchForFlight)
 
 	//listen and serve
 	app.Run(iris.Addr(":8080"))

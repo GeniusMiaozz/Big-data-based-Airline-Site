@@ -7,6 +7,7 @@ import (
 	"github.com/kataras/iris/v12"
 
 	"Airline/data"
+	"Airline/service/airline"
 	"Airline/service/identity"
 	"Airline/utils"
 )
@@ -80,7 +81,7 @@ func SignIn(ctx iris.Context) {
 }
 
 /*
-描述登出逻辑，成功时返回200状态码，注销token
+登出，成功时返回200状态码，注销token
 GET方法，从URL查询片段中获得参数
 */
 func SignOut(ctx iris.Context) {
@@ -88,9 +89,29 @@ func SignOut(ctx iris.Context) {
 }
 
 /*
-描述重置密码逻辑，成功时返回200状态码
+重置密码，成功时返回200状态码
 POST方法，从表单中获取参数
 */
 func ResetPassword(ctx iris.Context) {
 
+}
+
+/*
+查询航班，成功返回200
+GET方法
+*/
+func SearchForFlight(ctx iris.Context) {
+	_, fql, err := airline.SearchForFlight(
+		&data.Flight_Query{
+			Dep_Ct: ctx.URLParam("city_from"),
+			Arr_Ct: ctx.URLParam("city_to"),
+			Date:   ctx.URLParam("date_start"),
+		})
+	if err != nil {
+		ctx.StatusCode(500)
+		log.Println(err)
+	}
+	ctx.JSON(iris.Map{
+		"flights": fql,
+	})
 }
