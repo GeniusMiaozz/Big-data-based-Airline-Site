@@ -34,6 +34,11 @@ func main() {
 	app.Post("/signin", SignIn)
 	app.Get("/searchforflight", SearchForFlight)
 
+	//app.Get("/index",restRecommend)
+	//app.Get("/index",ticketRecommend)
+	//app.Get("/index",siteRecommend)
+	app.Get("/index",travelRecommend)
+
 	//listen and serve
 	app.Run(iris.Addr(":8080"))
 }
