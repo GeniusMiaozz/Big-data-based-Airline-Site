@@ -105,6 +105,7 @@
             onSubmit(evt) {
                 evt.preventDefault()
                 console.log(JSON.stringify(this.form))
+                // 这个部分把所有的查询用到的参数传到票价现实的组件中
                 Msg.$emit("val", this.form)
             },
             onReset(evt) {

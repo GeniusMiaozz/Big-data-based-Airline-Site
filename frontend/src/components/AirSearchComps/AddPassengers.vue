@@ -104,7 +104,6 @@
         mounted: function () {
             const _this = this;
             Msg.$on('val', function (m) {
-                console.log("nums:", m)
                 _this.form.nums = m.num
                 _this.nums = m.num
                 _this.form.id_card = []
