@@ -12,12 +12,12 @@
                         <AddPassengers/>
                     </b-tab>
                     <b-tab title="机票生成">
-                        <p>I'm the last tab</p>
-                        <p>I'm the last tab</p>
+                        <GenTickets/>
                     </b-tab>
                 </b-tabs>
             </b-card>
         </div>
+        <!--机票列表-->
         <FlightList/>
     </b-container>
 </template>
@@ -26,9 +26,10 @@
     import SearchTicket from "./AirSearchComps/SearchTicket";
     import AddPassengers from "./AirSearchComps/AddPassengers";
     import FlightList from "./AirSearchComps/FlightList";
+    import GenTickets from "./AirSearchComps/GenTickets";
 
     export default {
         name: "AirSearchMain",
-        components: {FlightList, AddPassengers, SearchTicket},
+        components: {FlightList, AddPassengers, SearchTicket, GenTickets},
     }
 </script>

@@ -1,19 +1,34 @@
 <template>
     <div class="small-margin no-padding" v-show="show" style="margin-bottom: 5em">
-        <b-row align-h="around" class="card_x">
-            <b-col class="button-center">
-                <b-button variant="outline-primary">默认排序</b-button>
-            </b-col>
-            <b-col class="button-center">
-                <b-button variant="outline-primary">起飞时间</b-button>
-            </b-col>
-            <b-col class="button-center">
-                <b-button variant="outline-primary">航程时长</b-button>
-            </b-col>
-            <b-col class="button-center">
-                <b-button variant="outline-primary">机票价格</b-button>
-            </b-col>
-        </b-row>
+        <b-card style="margin-bottom: 2em" class="shadow">
+            <b-row align-h="around" class="card_x" style="margin: auto">
+                <b-col class="button-center">
+                    <b-button variant="outline-primary" class="shadow-sm">
+                        默认排序
+                        <i class="fa fa-sort-amount-asc" aria-hidden="true"/>
+                    </b-button>
+                </b-col>
+                <b-col class="button-center">
+                    <b-button variant="outline-primary" class="shadow-sm">
+                        起飞时间
+                        <i class="fa fa-sort-amount-asc" aria-hidden="true"/>
+
+                    </b-button>
+                </b-col>
+                <b-col class="button-center">
+                    <b-button variant="outline-primary" class="shadow-sm">
+                        航程时长
+                        <i class="fa fa-sort-amount-asc" aria-hidden="true"/>
+                    </b-button>
+                </b-col>
+                <b-col class="button-center">
+                    <b-button variant="outline-primary" class="shadow-sm">
+                        机票价格
+                        <i class="fa fa-sort-amount-asc" aria-hidden="true"/>
+                    </b-button>
+                </b-col>
+            </b-row>
+        </b-card>
 
         <b-card bg-variant="light" text-variant="dark" class="card_x shadow" v-for="item in tickets" :key="item.id">
 
@@ -39,6 +54,8 @@
                     {{item.Dep_Airport}}{{item.Dep_Terminal}}
                 </b-col>
                 <b-col cols="4" style="text-align: center;font-size: 1.5em">
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
                     <i class="fa fa-fighter-jet" aria-hidden="true"></i>
                 </b-col>
                 <b-col cols="4" style="text-align: left;font-size: 1.5em">
