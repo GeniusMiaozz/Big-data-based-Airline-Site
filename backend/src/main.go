@@ -10,6 +10,7 @@ import (
 
 	_ "Airline/config"
 	"Airline/data/r_db"
+	"Airline/service/admin"
 	_ "Airline/utils"
 )
 
@@ -33,6 +34,9 @@ func main() {
 	app.Post("/signup", SignUp)
 	app.Post("/signin", SignIn)
 	app.Get("/searchforflight", SearchForFlight)
+
+	//admin
+	admin.Init(app)
 
 	//listen and serve
 	app.Run(iris.Addr(":8080"))
