@@ -1,7 +1,7 @@
 <template>
     <b-container class="small-margin">
         <div style="margin-bottom: 3em">
-            <b-card no-body>
+            <b-card no-body class="shadow">
                 <b-tabs small card>
                     <b-tab title="查询机票">
                         <div>
@@ -32,11 +32,3 @@
         components: {FlightList, AddPassengers, SearchTicket},
     }
 </script>
-
-<style scoped>
-    .small-margin {
-        padding: 0 2em;
-        margin-top: 1em;
-    }
-
-</style>

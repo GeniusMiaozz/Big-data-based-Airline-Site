@@ -8,7 +8,7 @@
             <el-form class="register_form" :model="registerForm" :rules="registerFormRules" ref="registerFormRef">
 
                 <el-form-item prop="username">
-                    <el-input prefix-icon="el-icon-user" v-model="registerForm.username" placeholder="用户名"></el-input>
+                    <el-input prefix-icon="el-icon-phone" v-model="registerForm.telephone" placeholder="电话号码"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="password">
@@ -47,14 +47,14 @@
 
             return {
                 registerForm: {
-                    username: '15996618001',
+                    telephone: '15996618001',
                     password: '123456',
                     password_x: '123456'
                 },
                 registerFormRules: {
-                    username: [
+                    telephone: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 15, message: "长度在 3 到 15 个字符", trigger: 'blur'}
+                        {min: 11, max: 11, message: "长度为11位", trigger: 'blur'}
                     ],
                     password: [
                         {required: true, message: '请输入登录密码', trigger: 'blur'},
@@ -76,18 +76,18 @@
 
                     //连接后台go服务器部分
                     const params = new URLSearchParams();
-                    params.append('telephone', this.registerForm.username)
-                    params.append('password', this.registerForm.password)
-                    var status = 400
+                    params.append('telephone', this.registerForm.telephone);
+                    params.append('password', this.registerForm.password);
+                    let status = 400;
                     await this.$axios.post('http://localhost:8080/signup', params).then(
                         function (response) {
                             console.log(response);
-                            status = response.status
+                            status = response.status;
                         }
                     ).catch(
                         function (error) {
-                            console.log(error.response.status)
-                            status = error.response.status
+                            console.log(error.response.status);
+                            status = error.response.status;
                         }
                     )
                     if (status !== 200) {
@@ -96,7 +96,7 @@
                     this.$message({
                         message: "注册成功",
                         type: 'success'
-                    })
+                    });
                     await this.$router.push('/login');
                 })
             }

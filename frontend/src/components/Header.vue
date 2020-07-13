@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar class="shadow" toggleable="lg" type="dark" variant="dark">
             <b-container>
                 <b-navbar-brand href="#" to="/home">Air</b-navbar-brand>
 
@@ -14,8 +14,8 @@
                         <b-nav-item v-else to="/search">航班查询</b-nav-item>
                         <b-nav-item v-if="index===3" active href="#">会员专区</b-nav-item>
                         <b-nav-item v-else href="#">会员专区</b-nav-item>
-                        <b-nav-item v-if="index===4" active href="#">订单管理</b-nav-item>
-                        <b-nav-item v-else href="#">订单管理</b-nav-item>
+                        <b-nav-item v-if="index===4" active to="/orders">订单管理</b-nav-item>
+                        <b-nav-item v-else to="/orders">订单管理</b-nav-item>
                     </b-navbar-nav>
 
                     <!-- Right aligned nav items -->

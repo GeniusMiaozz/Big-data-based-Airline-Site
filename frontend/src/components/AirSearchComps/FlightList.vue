@@ -1,5 +1,5 @@
 <template>
-    <div class="small-margin no-padding" v-show="show">
+    <div class="small-margin no-padding" v-show="show" style="margin-bottom: 5em">
         <b-row align-h="around" class="card_x">
             <b-col class="button-center">
                 <b-button variant="outline-primary">默认排序</b-button>
@@ -15,41 +15,75 @@
             </b-col>
         </b-row>
 
-        <b-card bg-variant="light" text-variant="dark" class="card_x" v-for="item in tickets" :key="item.Flight_No">
+        <b-card bg-variant="light" text-variant="dark" class="card_x shadow" v-for="item in tickets" :key="item.id">
+
             <b-row style="margin-bottom: 1em">
-                <b-col><P style="font-size: 15px;margin: 2px">{{item.Company}}|{{item.Flight_No}}|</P></b-col>
+                <b-col><P style="font-size: 18px;margin: 2px;color: cadetblue">{{item.Company}}|{{item.Flight_No}}|</P>
+                </b-col>
             </b-row>
+
             <b-row>
-                <b-col cols="4" style="text-align: right">
+                <b-col cols="4" style="text-align: right;font-size: 1.3em">
                     <time>{{item.Dep_Scheduled}}</time>
                 </b-col>
-                <b-col cols="4" style="text-align: center">
-                    <!--                    {{item.flight_time}}-->
+                <b-col cols="4" style="text-align: center;font-size: 1.3em;color: brown">
+                    {{item.Flight_time}}
                 </b-col>
-                <b-col cols="4" style="text-align: left">
+                <b-col cols="4" style="text-align: left;font-size: 1.3em">
                     <time>{{item.Arr_Scheduled}}</time>
                 </b-col>
             </b-row>
+
             <b-row>
-                <b-col cols="4" style="text-align: right">
-                    {{item.Dep_Airport}}
+                <b-col cols="4" style="text-align: right;font-size: 1.5em">
+                    {{item.Dep_Airport}}{{item.Dep_Terminal}}
                 </b-col>
-                <b-col cols="4" style="text-align: center">
-                    <img src="../../../public/imgs/plane-logo.png" alt="logo" width="31px">
+                <b-col cols="4" style="text-align: center;font-size: 1.5em">
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
                 </b-col>
-                <b-col cols="4" style="text-align: left">
-                    {{item.Arr_Airport}}
+                <b-col cols="4" style="text-align: left;font-size: 1.5em">
+                    {{item.Arr_Airport}}{{item.Arr_Terminal}}
                 </b-col>
             </b-row>
+
             <b-row style="margin-top: 1em">
                 <b-col class="button-center">
-                    <b-button variant="outline-success">经济舱：￥{{item.E_Price}}</b-button>
+                    <b-button variant="outline-success">
+                        <b-row align-h="center">
+                            <b-col>
+                                <label class="price">
+
+                                    经济舱：￥{{item.E_Price}}
+                                    <b-badge variant="success" style="margin-left: 5px">{{item.E_Tickets}}</b-badge>
+                                </label>
+                            </b-col>
+                        </b-row>
+                    </b-button>
                 </b-col>
                 <b-col class="button-center">
-                    <b-button variant="outline-success">超级经济舱：￥{{item.S_Price}}</b-button>
+                    <b-button variant="outline-success">
+                        <b-row align-h="center">
+                            <b-col>
+                                <label class="price">
+                                    超级经济舱：￥{{item.S_Price}}
+                                    <b-badge variant="success" style="margin-left: 5px">{{item.S_Tickets}}</b-badge>
+                                </label>
+                            </b-col>
+                        </b-row>
+                    </b-button>
                 </b-col>
                 <b-col class="button-center">
-                    <b-button variant="outline-success"> 公务/头等舱：￥{{item.F_Price}}</b-button>
+                    <b-button variant="outline-success">
+                        <b-row align-h="center">
+                            <b-col>
+                                <label class="price">
+                                    头等舱：￥{{item.F_Price}}
+                                    <b-badge variant="success" style="margin-left: 5px">{{item.F_Tickets}}</b-badge>
+                                </label>
+
+                            </b-col>
+                        </b-row>
+                    </b-button>
                 </b-col>
             </b-row>
         </b-card>
@@ -87,26 +121,60 @@
                         "F_Tickets": 30,
                         "F_Discount": 0.7
                     }
-                ]
+                ],
+                flight_time: ''
             }
         },
         methods: {
             loadTicketsFromBackend(m) {
                 const obj = this;
-                const url = 'http://127.0.0.1:8080/searchforflight?' + 'city_from=' + m.city_from + '&city_to=' + m.city_to + '&date_start=' + m.date_start
+                const url = 'http://127.0.0.1:8080/searchforflight?'
+                    + 'city_from=' + m.city_from
+                    + '&city_to=' + m.city_to
+                    + '&date_start=' + m.date_start;
+
                 this.$axios.get(url).then(
                     function (res) {
-                        obj.tickets = res.data.flights
-                        console.log(res.data)
+                        obj.tickets = res.data.flights;
                         obj.show = true;
+                        var id = 0;
+                        obj.tickets.forEach(element => {
+                            element['Flight_time'] = obj.cal_flight_time(element.Arr_Scheduled, element.Dep_Scheduled);
+                            element['id'] = id;
+                            id++;
+                        })
                     }
                 ).catch(
                     function (error) {
-                        console.log(error.response.status)
-                        status = error.response.status
+                        console.log(error.response.status);
+                        status = error.response.status;
                     }
                 )
+            },
+
+            cal_flight_time(d1, d2) {
+                const date1 = new Date(d1.replace(/-/g, "/"));
+                const date2 = new Date(d2.replace(/-/g, "/"));
+                var date3 = date1.getTime() - date2.getTime(); //时间差秒
+                //计算出相差天数
+                let days = Math.floor(date3 / (24 * 3600 * 1000));
+
+                //计算出小时数
+                var leave1 = date3 % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000))
+
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000)       //计算小时数后剩余的毫秒数
+                var minutes = Math.floor(leave2 / (60 * 1000))
+
+                if (days > 0) {
+                    return days + "天" + hours + "时" + minutes + "分"
+                } else {
+                    return hours + "时" + minutes + "分"
+                }
             }
+
+
         },
         mounted: function () {
             var _this = this
@@ -118,6 +186,11 @@
 </script>
 
 <style lang="less" scoped>
+
+    .price {
+        margin: 5px;
+    }
+
     .small-margin {
         margin-top: 1em;
     }

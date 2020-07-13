@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import echarts from 'echarts'
 import vueResource from 'vue-resource'
+import 'font-awesome/css/font-awesome.css'
 
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.use(vueResource)

@@ -68,11 +68,11 @@
             </b-col>
         </b-row>
         <b-row align-h="start">
-            <b-col cols="6">
-                <b-button type="reset" variant="dark">复位</b-button>
-            </b-col>
-            <b-col cols="6">
-                <b-button type="submit" variant="primary">查询</b-button>
+            <b-col cols="6" offset="6">
+                <b-button-group>
+                    <b-button type="reset" variant="dark">复位</b-button>
+                    <b-button type="submit" variant="primary">查询</b-button>
+                </b-button-group>
             </b-col>
         </b-row>
     </b-form>
@@ -92,8 +92,8 @@
                     Position: '经济舱',
                     num: 1
                 },
-                nums:[
-                    1,2,3,4
+                nums: [
+                    1, 2, 3, 4
                 ],
                 Positions: [
                     '经济舱', '头等舱', '商务舱'

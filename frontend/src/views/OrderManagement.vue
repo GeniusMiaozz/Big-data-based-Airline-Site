@@ -1,23 +1,24 @@
 <template>
     <div>
         <Header :index="index" :username="username"/>
-        <AirSearchMain/>
+        <OrderList/>
     </div>
+
 </template>
 
 <script>
     import Header from "../components/Header";
-    import AirSearchMain from "../components/AirSearchMain";
+    import OrderList from "../components/OrderList";
 
     export default {
-        name: "AirSearch",
-        components: {Header, AirSearchMain},
+        name: "OrderManagement",
+        components:{OrderList, Header},
         data() {
             return {
-                index: 2,
-                username: 'search'
+                index: 4,
+                username: 'orderManagement'
             }
-        },
+        }
     }
 </script>
 

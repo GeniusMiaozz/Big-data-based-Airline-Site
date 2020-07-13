@@ -3,3 +3,8 @@ html, body, #app {
     margin: 0;
     padding: 0;
 }
+
+.small-margin {
+    padding: 0 2em;
+    margin-top: 1em;
+}

@@ -8,7 +8,7 @@
             <!--登录表单区域-->
             <el-form class="login_form" :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
                 <el-form-item prop="username">
-                    <el-input prefix-icon="el-icon-user" v-model="loginForm.username" placeholder="用户名"></el-input>
+                    <el-input prefix-icon="el-icon-phone" v-model="loginForm.telephone" placeholder="电话号码"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="password">
@@ -31,14 +31,14 @@
         data() {
             return {
                 loginForm: {
-                    username: '15996618001',
+                    telephone: '15996618001',
                     password: '123456'
                 },
                 //表单的验证规则对象
                 loginFormRules: {
-                    username: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 15, message: "长度在 3 到 15 个字符", trigger: 'blur'}
+                    telephone: [
+                        {required: true, message: '请输入电话', trigger: 'blur'},
+                        {min: 11, max: 11, message: "长度为11位", trigger: 'blur'}
                     ],
                     password: [
                         {required: true, message: '请输入登录密码', trigger: 'blur'},
@@ -55,7 +55,7 @@
                     //连接后台go服务器部分
                     const url='http://localhost:8080/signin'
                     const params = new URLSearchParams();
-                    params.append('telephone',this.loginForm.username)
+                    params.append('telephone',this.loginForm.telephone)
                     params.append('password',this.loginForm.password)
 
                     var status=400;
