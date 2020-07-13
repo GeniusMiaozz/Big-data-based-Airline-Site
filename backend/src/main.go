@@ -34,6 +34,10 @@ func main() {
 	app.Post("/signup", SignUp)
 	app.Post("/signin", SignIn)
 	app.Get("/searchforflight", SearchForFlight)
+	app.Get("/index",travelRecommend)
+	//app.Get("/index",restRecommend)
+	//app.Get("/index",ticketRecommend)
+	//app.Get("/index",siteRecommend)
 
 	//admin
 	admin.Init(app)

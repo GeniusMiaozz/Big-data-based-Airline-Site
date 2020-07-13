@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Airline/service/recommend"
 	"log"
 	"strconv"
 
@@ -96,6 +97,7 @@ func ResetPassword(ctx iris.Context) {
 
 }
 
+
 /*
 查询航班，成功返回200
 GET方法
@@ -114,4 +116,69 @@ func SearchForFlight(ctx iris.Context) {
 	ctx.JSON(iris.Map{
 		"flights": fql,
 	})
+}
+
+func restRecommend(ctx iris.Context){///index/rest?userid=12345
+	var userId = ctx.URLParam("userid")
+
+	log.Print("here")
+	status, list, err := recommend.RestRecommend(userId)
+	if err!=nil {
+		if status == 1 {
+			ctx.StatusCode(500)
+			log.Println(err.Error())
+		} else {
+			ctx.JSON(iris.Map{
+				"hotel_rec": list,
+			})
+		}
+	}
+}
+
+func ticketRecommend(ctx iris.Context) {///index/ticket?userid=12345
+	userId := ctx.URLParam("userid")
+	status, list, err := recommend.TicketRecommend(userId)
+	if err != nil {
+		if err != nil {
+			if status == 1 {
+				ctx.StatusCode(500)
+				log.Println(err.Error())
+			} else {
+				ctx.JSON(iris.Map{
+					"ticket_rec": list,
+				})
+			}
+		}
+	}
+}
+func siteRecommend(ctx iris.Context) {///index/site?userid=12345
+	userId := ctx.URLParam("userid")
+	status, list, err := recommend.SiteRecommend(userId)
+	if err != nil {
+		if err != nil {
+			if status == 1 {
+				ctx.StatusCode(500)
+				log.Println(err.Error())
+			} else {
+				ctx.JSON(iris.Map{
+					"site_rec": list,
+				})
+			}
+		}
+	}
+}
+func travelRecommend(ctx iris.Context) {
+	status, list, err := recommend.TravelRecommend()
+	if err != nil {
+		if err != nil {
+			if status == 1 {
+				ctx.StatusCode(500)
+				log.Println(err.Error())
+			} else {
+				ctx.JSON(iris.Map{
+					"travel_rec": list,
+				})
+			}
+		}
+	}
 }
