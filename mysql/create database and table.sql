@@ -23,7 +23,6 @@ CREATE TABLE `airline`.`member_information_table` (
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 会员卡号
   `GENDER` CHAR(1) NULL,					-- 性别
   `AGE` INT UNSIGNED NULL,					-- 年龄
-  `IDENTITY_ID` BIGINT UNSIGNED NOT NULL,	-- 身份证号
   `FFP_DATE` DATE NOT NULL,					-- 入会时间
   `FFP_TIER` INT UNSIGNED NOT NULL,			-- 会员卡级别
   `WORK_CITY` TEXT NULL,					-- 工作地城市
@@ -64,14 +63,14 @@ CREATE TABLE `airline`.`flight_query_table` (
   `DEP_SCHEDULED` DATETIME NOT NULL,		-- 预计起飞时间
   `ARR_SCHEDULED` DATETIME NOT NULL,		-- 预计到达时间
   `E_PRICE` FLOAT NOT NULL,					-- 低价票票价
-  `E_TICKETS` INT(11) NOT NULL,				-- 低价票票数
   `E_DISCOUNT` FLOAT NOT NULL,				-- 低价票折扣
+  `E_TICKETS` INT NOT NULL,					-- 低价票票数
   `S_PRICE` FLOAT NOT NULL,					-- 中价票票价
-  `S_TICKETS` INT(11) NOT NULL,				-- 中价票票数
   `S_DISCOUNT` FLOAT NOT NULL,				-- 中价票折扣
+  `S_TICKETS` INT NOT NULL,					-- 中价票票数
   `F_PRICE` FLOAT NOT NULL,					-- 高价票票价
-  `F_TICKETS` INT(11) NOT NULL,				-- 高价票票数
   `F_DISCOUNT` FLOAT NOT NULL,				-- 高价票折扣
+  `F_TICKETS` INT NOT NULL,					-- 高价票票数
   
   PRIMARY KEY (`FLIGHT_NO`, `DATE`));
 
