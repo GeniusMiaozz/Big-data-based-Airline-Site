@@ -84,13 +84,14 @@
             onSubmit(evt) {
                 evt.preventDefault()
                 alert(JSON.stringify(this.form))
+                Msg.$emit('user_info',this.form)
             },
             onReset(evt) {
                 evt.preventDefault()
                 // Reset our form values
                 this.form.id_card = []
                 this.form.name = []
-                for (var n = 0; n < m; n++) {
+                for (let n = 0; n < m; n++) {
                     this.form.id_card[n] = ''
                     this.form.name[n] = ''
                 }
@@ -103,12 +104,12 @@
         },
         mounted: function () {
             const _this = this;
-            Msg.$on('val', function (m) {
+            Msg.$on('search', function (m) {
                 _this.form.nums = m.num
                 _this.nums = m.num
                 _this.form.id_card = []
                 _this.form.name = []
-                for (var n = 0; n < m; n++) {
+                for (let n = 0; n < m; n++) {
                     _this.form.id_card[n] = ''
                     _this.form.name[n] = ''
                 }

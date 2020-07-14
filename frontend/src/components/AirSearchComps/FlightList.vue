@@ -68,8 +68,7 @@
                     <b-button variant="outline-success">
                         <b-row align-h="center">
                             <b-col>
-                                <label class="price">
-
+                                <label class="price" @click="choose_ticket(0,item)">
                                     经济舱：￥{{item.E_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.E_Tickets}}</b-badge>
                                 </label>
@@ -81,7 +80,7 @@
                     <b-button variant="outline-success">
                         <b-row align-h="center">
                             <b-col>
-                                <label class="price">
+                                <label class="price" @click="choose_ticket(1,item)">
                                     超级经济舱：￥{{item.S_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.S_Tickets}}</b-badge>
                                 </label>
@@ -93,7 +92,7 @@
                     <b-button variant="outline-success">
                         <b-row align-h="center">
                             <b-col>
-                                <label class="price">
+                                <label class="price" @click="choose_ticket(2,item)">
                                     头等舱：￥{{item.F_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.F_Tickets}}</b-badge>
                                 </label>
@@ -189,13 +188,19 @@
                 } else {
                     return hours + "时" + minutes + "分"
                 }
+            },
+
+            choose_ticket(ticket_type, ticket_info) {
+                Msg.$emit("choose_ticket",
+                    {ticket_type: ticket_type, ticket_info: ticket_info})
+                alert('选择成功\n'+JSON.stringify(ticket_info))
             }
 
 
         },
         mounted: function () {
             var _this = this
-            Msg.$on('val', function (m) {
+            Msg.$on('search', function (m) {
                 _this.loadTicketsFromBackend(m)
             })
         }

@@ -42,6 +42,7 @@
                         label="出发日期"
                         label-for="input-3">
                     <b-form-datepicker v-model="form.date_start"
+                                       placeholder="选择出发日期"
                                        class="mb-2"
                                        required
                     >
@@ -104,9 +105,9 @@
         methods: {
             onSubmit(evt) {
                 evt.preventDefault()
-                console.log(JSON.stringify(this.form))
+                console.log("SearchTickets"+JSON.stringify(this.form))
                 // 这个部分把所有的查询用到的参数传到票价现实的组件中
-                Msg.$emit("val", this.form)
+                Msg.$emit("search", this.form)
             },
             onReset(evt) {
                 evt.preventDefault()
