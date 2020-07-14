@@ -3,7 +3,7 @@ import func.analysis_func
 import org.apache.spark.mllib.clustering.KMeans
 import org.apache.spark.mllib.linalg.Vectors
 
-object Airline_LRFMC_Test {
+object LRFMC_Test {
 
   //L:会员入会时间距观测窗口结束月数 9项:LOAD_TIME - 1项:FFP_DATE
   //R:客户最近一次乘坐公司飞机距观测窗口结束的月数 22项:LAST_TO_END

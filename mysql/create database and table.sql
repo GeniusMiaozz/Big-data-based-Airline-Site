@@ -71,24 +71,29 @@ CREATE TABLE `airline`.`flight_query_table` (
   `F_PRICE` FLOAT NOT NULL,					-- 高价票票价
   `F_DISCOUNT` FLOAT NOT NULL,				-- 高价票折扣
   `F_TICKETS` INT NOT NULL,					-- 高价票票数
-  
   PRIMARY KEY (`FLIGHT_NO`, `DATE`));
 
 -- 7.创建订单管理表 order_manage_table
 CREATE TABLE `airline`.`order_manage_table` (
   `ORDER_NUMBER` BIGINT UNSIGNED NOT NULL,	-- 订单号
   `FLIGHT_NO` VARCHAR(10) NOT NULL,			-- 航班号
+  `DATE` DATE NOT NULL,						-- 日期
+  `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 会员卡号
   `DEP_CT` TEXT NOT NULL,					-- 起飞城市
   `ARR_CT` TEXT NOT NULL,					-- 到达城市
-  `DATE` DATE NOT NULL,						-- 日期
   `REFUND_OR_CHANGE` INT UNSIGNED NOT NULL,	-- 退票、改签的标志位
   `POINT` INT NOT NULL,						-- 订单积分
   PRIMARY KEY (`ORDER_NUMBER`),
-  INDEX `Foreign_idx` (`FLIGHT_NO` ASC, `DATE` ASC) VISIBLE,
+  INDEX `Foreign_idx` (`FLIGHT_NO` ASC, `DATE` ASC, `MEMBER_NO` ASC) VISIBLE,
   CONSTRAINT `Foreign_2`
     FOREIGN KEY (`FLIGHT_NO` , `DATE`)
     REFERENCES `airline`.`flight_query_table` (`FLIGHT_NO` , `DATE`)
     ON DELETE NO ACTION						-- 对于历史订单,可以不设置级联删除
+    ON UPDATE NO ACTION,
+  CONSTRAINT `Foreign_2_1`
+    FOREIGN KEY (`MEMBER_NO`)
+    REFERENCES `airline`.`member_register_table` (`MEMBER_NO`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 -- 8.创建增值服务表 additional_ service_table

@@ -31,3 +31,8 @@ into table `airline`.`flight_query_table`
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
 
+-- 6.导入数据至订单管理表 order_manage_table
+load data infile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_in/order_manage_data_in.csv'
+into table `airline`.`order_manage_table`
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';

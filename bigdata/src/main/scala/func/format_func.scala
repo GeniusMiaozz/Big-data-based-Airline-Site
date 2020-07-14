@@ -85,7 +85,7 @@ object format_func {
     }
   }
 
-  //根据出发时间和到达时间,生成票价
+  //根据出发时间和到达时间,生成票价/积分
   def get_price(dep_time: String, arr_time: String, coef: Int, addi: Int): String = {
     val hour = if (arr_time.split(":")(0).toInt >= dep_time.split(":")(0).toInt)
       arr_time.split(":")(0).toInt - dep_time.split(":")(0).toInt
@@ -95,10 +95,24 @@ object format_func {
       arr_time.split(":")(1).toInt - dep_time.split(":")(1).toInt
     else arr_time.split(":")(1).toInt + 60 - dep_time.split(":")(1).toInt
 
-    val time = hour + minute / 60
+    val time = hour.toFloat + minute.toDouble / 60
 
     val result = time * coef + Random.nextInt(addi)
-    result.toString
+    result.toInt.toString
+  }
+
+  //生成不重复随机的手机尾号
+  def make_tele_number(n: Int, range: Int): List[String] = {
+    val tele_head = Map(0 -> "139", 1 -> "187", 2 -> "158", 3 -> "138", 4 -> "185")
+    val arr = ArrayBuffer.empty[String]
+    while (arr.size < n) {
+      val tele_tail = (Random.nextInt(range) + 10000000).toString
+      val tele = tele_head(Random.nextInt(5)) + tele_tail
+      if (!arr.contains(tele)) {
+        arr += tele
+      }
+    }
+    arr.toList
   }
 
   //格式化航班查询数据并写入
@@ -129,20 +143,6 @@ object format_func {
     //flight_info.foreach(println)
   }
 
-  //生成不重复随机数的算法
-  def make_tele_number(n: Int, range: Int): List[String] = {
-    val tele_head = Map(0 -> "139", 1 -> "187", 2 -> "158", 3 -> "138", 4 -> "185")
-    val arr = ArrayBuffer.empty[String]
-    while (arr.size < n) {
-      val tele_tail = (Random.nextInt(range) + 10000000).toString
-      val tele = tele_head(Random.nextInt(5)) + tele_tail
-      if (!arr.contains(tele)) {
-        arr += tele
-      }
-    }
-    arr.toList
-  }
-
   //格式化客户及管理员的注册信息并写入
   def format_people_data(ss: SparkSession): Unit = {
     val tele_arr = make_tele_number(400, 55889999)
@@ -166,5 +166,42 @@ object format_func {
         + row(5) + ',' + row(6) + ",中国," + row(8)) //城市,省份,国家,飞行次数
     member_info.saveAsTextFile("output/member_information")
     //member_info.foreach(println)
+  }
+
+  //格式化订单信息并写入
+  def format_order_data(ss: SparkSession): Unit = {
+    //随机生产100个用户
+    val user_num = ArrayBuffer.empty[Int]
+    while (user_num.size < 100) {
+      val uid = Random.nextInt(200) + 1
+      if (!user_num.contains(uid)) {
+        user_num += uid
+      }
+    }
+
+    //随机生产100个订单号
+    val order_num = ArrayBuffer.empty[Int]
+    while (order_num.size < 100) {
+      val fid = Random.nextInt(899999) + 100000
+      if (!order_num.contains(fid)) {
+        order_num += fid
+      }
+    }
+
+    val flight_data = ss.sparkContext.textFile("data/flight_data.csv").map(_.split(","))
+      .map(row => row(0) + ',' + row(1) + ',' + row(2) + ',' + row(3) + ',' //航班号,日期,出发地,到达地
+        + get_price(row(4), row(5), 100, 1)).take(100) //积分
+
+    val order_data = ArrayBuffer[String]()
+    for (index <- 0 to 99) {
+      order_data += order_num(index).toString + ',' + flight_data(index).split(",")(0) + ',' + //订单号,航班号
+        flight_data(index).split(",")(1) + ',' + user_num(index) + ',' + //日期,会员卡号
+        flight_data(index).split(",")(2) + ',' + flight_data(index).split(",")(3) + ",0," + //起飞地,到达地,退票/改签标志位
+        flight_data(index).split(",")(4)//积分
+    }
+    var order_rdd = ss.sparkContext.parallelize(order_data.toList)
+
+    order_rdd.saveAsTextFile("output/order_manage")
+    //order_rdd.foreach(println)
   }
 }
