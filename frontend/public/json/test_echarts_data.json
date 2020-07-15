@@ -1,41 +1,62 @@
 {
-    "data": [{
-            "id": 12,
-            "sex": "男",
-            "age": 18
+    "data": [],
+    "value_info": [{
+            "name": "低价值客户",
+            "value": 123
         },
         {
-            "id": 274,
-            "sex": "女",
-            "age": 19
+            "name": "一般价值客户",
+            "value": 49
         },
         {
-            "id": 122,
-            "sex": "男",
-            "age": 21
+            "name": "重要发展客户",
+            "value": 16
         },
         {
-            "id": 2274,
-            "sex": "女",
-            "age": 22
+            "name": "重要挽留客户",
+            "value": 5
+        },
+        {
+            "name": "重要保持客户",
+            "value": 7
         }
     ],
     "sex_info": [{
-            "value": 235,
+            "value": 93,
             "name": "男"
         },
         {
-            "value": 274,
+            "value": 107,
             "name": "女"
         }
     ],
     "age_info": [{
-            "value": 758,
-            "name": "15-20"
+            "value": 2,
+            "name": "26岁"
         },
         {
-            "value": 596,
-            "name": "20-15"
+            "value": 68,
+            "name": "27岁"
+        },
+        {
+            "value": 105,
+            "name": "28岁"
+        },
+        {
+            "value": 19,
+            "name": "29岁"
+        },
+        {
+            "value": 1,
+            "name": "30岁"
+        },
+        {
+            "value": 3,
+            "name": "31岁"
+        },
+        {
+            "value": 2,
+            "name": "32岁"
         }
     ]
 }

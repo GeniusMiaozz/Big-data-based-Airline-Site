@@ -93,8 +93,7 @@ object analysis_func {
       //判断重要保持客户及重要挽留客户
       else if ((center_arr(index)(1) < avg_center(1))
         && (center_arr(index)(2) > avg_center(2))
-        && (center_arr(index)(3) > avg_center(3))
-        && (center_arr(index)(4) > avg_center(4))) {
+        && (center_arr(index)(3) > avg_center(3))) {
         val prop_R = (avg_center(1) - center_arr(index)(1)) / avg_center(1)
         val prop_F = (center_arr(index)(2) - avg_center(2)) / center_arr(index)(2)
         val prop_M = (center_arr(index)(3) - avg_center(3)) / center_arr(index)(3)
@@ -120,8 +119,7 @@ object analysis_func {
       //判断低价值客户及一般价值客户
       else if ((center_arr(index)(1) > avg_center(1))
         && (center_arr(index)(2) < avg_center(2))
-        && (center_arr(index)(3) < avg_center(3))
-        && (center_arr(index)(4) < avg_center(4))) {
+        && (center_arr(index)(3) < avg_center(3))) {
         val prop_R = (center_arr(index)(1) - avg_center(1)) / center_arr(index)(1)
         val prop_F = (avg_center(2) - center_arr(index)(2)) / avg_center(2)
         val prop_M = (avg_center(3) - center_arr(index)(3)) / avg_center(3)

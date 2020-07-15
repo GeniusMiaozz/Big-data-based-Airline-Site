@@ -28,8 +28,8 @@ into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Si
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
 
--- 5.导出flight_query_table表中的数据
-select * from `airline`.`flight_query_table`
-into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/flight_query_data_out.csv'
+-- 5.导出order_manage_table表中的数据
+select * from `airline`.`order_manage_table`
+into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/order_manage_data_out.csv'
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
