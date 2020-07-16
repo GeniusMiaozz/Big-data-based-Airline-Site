@@ -3,12 +3,12 @@
     "id": 0,
     "caption": "最多去的地方",
     "text": "一些描述 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt",
-    "img": "https://picsum.photos/1024/480/?image=52"
+    "img": "https://figure-bed-y.oss-cn-beijing.aliyuncs.com/img/20200311.jpg"
   },
   {
     "id": 1,
     "caption": "最好评的地方",
     "text": "一些描述",
-    "img": "https://picsum.photos/1024/480/?image=54"
+    "img": "https://figure-bed-y.oss-cn-beijing.aliyuncs.com/img/JuniperPhoton01.jpg"
   }
 ]

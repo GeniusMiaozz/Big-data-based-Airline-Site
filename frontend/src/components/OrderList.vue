@@ -6,7 +6,7 @@
                     <b-table :items="items" :fields="fields" striped responsive="sm" outlined>
                         <template v-slot:cell(show_details)="row">
                             <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-                                {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+                                {{ row.detailsShowing ? '隐藏详情' : '显示详情'}}
                             </b-button>
                         </template>
 

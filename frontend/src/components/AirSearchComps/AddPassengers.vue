@@ -9,7 +9,7 @@
                 >
                     <b-form-input
                             id="input-1"
-                            v-model="form.id_card[i]"
+                            v-model="form.id_cards[i-1]"
                             required
                     >
                     </b-form-input>
@@ -23,7 +23,7 @@
                 >
                     <b-form-input
                             id="input-2"
-                            v-model="form.name[i]"
+                            v-model="form.names[i-1]"
                             required
                             placeholder=""
                     >
@@ -57,8 +57,8 @@
         data() {
             return {
                 form: {
-                    id_card: [''],
-                    name: [''],
+                    id_cards: [''],
+                    names: [''],
                     nums: 1,
                 },
 
@@ -68,23 +68,27 @@
         methods: {
             add() {
                 if (this.form.nums < 4) {
-                    this.form.name.push('')
-                    this.form.id_card.push('')
+                    this.form.names.push('')
+                    this.form.id_cards.push('')
                     this.form.nums++
                 }
             },
             delete_x() {
                 if (this.form.nums > 1) {
-                    this.form.name.pop()
-                    this.form.id_card.pop()
+                    this.form.names.pop()
+                    this.form.id_cards.pop()
                     this.form.nums--
                 }
 
             },
             onSubmit(evt) {
                 evt.preventDefault()
-                alert(JSON.stringify(this.form))
-                Msg.$emit('user_info',this.form)
+                // alert(JSON.stringify(this.form))
+                Msg.$emit('user_info', this.form)
+                this.$message({
+                    message: "乘客添加成功",
+                    type: 'success'
+                })
             },
             onReset(evt) {
                 evt.preventDefault()

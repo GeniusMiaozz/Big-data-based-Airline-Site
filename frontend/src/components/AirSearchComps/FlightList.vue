@@ -67,8 +67,8 @@
                 <b-col class="button-center">
                     <b-button variant="outline-success">
                         <b-row align-h="center">
-                            <b-col>
-                                <label class="price" @click="choose_ticket(0,item)">
+                            <b-col @click="choose_ticket(0,item)">
+                                <label class="price">
                                     经济舱：￥{{item.E_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.E_Tickets}}</b-badge>
                                 </label>
@@ -76,11 +76,12 @@
                         </b-row>
                     </b-button>
                 </b-col>
+
                 <b-col class="button-center">
                     <b-button variant="outline-success">
                         <b-row align-h="center">
-                            <b-col>
-                                <label class="price" @click="choose_ticket(1,item)">
+                            <b-col @click="choose_ticket(1,item)">
+                                <label class="price">
                                     超级经济舱：￥{{item.S_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.S_Tickets}}</b-badge>
                                 </label>
@@ -88,11 +89,12 @@
                         </b-row>
                     </b-button>
                 </b-col>
+
                 <b-col class="button-center">
                     <b-button variant="outline-success">
                         <b-row align-h="center">
-                            <b-col>
-                                <label class="price" @click="choose_ticket(2,item)">
+                            <b-col @click="choose_ticket(2,item)">
+                                <label class="price">
                                     头等舱：￥{{item.F_Price}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.F_Tickets}}</b-badge>
                                 </label>
@@ -151,9 +153,9 @@
 
                 this.$axios.get(url).then(
                     function (res) {
-                        obj.tickets = res.data.flights;
+                        obj.tickets = res.data['flights'];
                         obj.show = true;
-                        var id = 0;
+                        let id = 0;
                         obj.tickets.forEach(element => {
                             element['Flight_time'] = obj.cal_flight_time(element.Arr_Scheduled, element.Dep_Scheduled);
                             element['id'] = id;
@@ -171,17 +173,17 @@
             cal_flight_time(d1, d2) {
                 const date1 = new Date(d1.replace(/-/g, "/"));
                 const date2 = new Date(d2.replace(/-/g, "/"));
-                var date3 = date1.getTime() - date2.getTime(); //时间差秒
+                const date3 = date1.getTime() - date2.getTime(); //时间差秒
                 //计算出相差天数
                 let days = Math.floor(date3 / (24 * 3600 * 1000));
 
                 //计算出小时数
-                var leave1 = date3 % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
-                var hours = Math.floor(leave1 / (3600 * 1000))
+                let leave1 = date3 % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+                let hours = Math.floor(leave1 / (3600 * 1000));
 
                 //计算相差分钟数
-                var leave2 = leave1 % (3600 * 1000)       //计算小时数后剩余的毫秒数
-                var minutes = Math.floor(leave2 / (60 * 1000))
+                let leave2 = leave1 % (3600 * 1000);       //计算小时数后剩余的毫秒数
+                let minutes = Math.floor(leave2 / (60 * 1000));
 
                 if (days > 0) {
                     return days + "天" + hours + "时" + minutes + "分"
@@ -193,13 +195,15 @@
             choose_ticket(ticket_type, ticket_info) {
                 Msg.$emit("choose_ticket",
                     {ticket_type: ticket_type, ticket_info: ticket_info})
-                alert('选择成功\n'+JSON.stringify(ticket_info))
+                this.$message({
+                        message: "机票选择成功",
+                        type: 'success'
+                    })
             }
-
 
         },
         mounted: function () {
-            var _this = this
+            let _this = this;
             Msg.$on('search', function (m) {
                 _this.loadTicketsFromBackend(m)
             })
