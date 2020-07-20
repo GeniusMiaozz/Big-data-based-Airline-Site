@@ -7,6 +7,7 @@ import Register from "../views/Register";
 import AirSearch from "../views/AirSearch";
 import Charts from "../views/Charts";
 import OrderManagement from "../views/OrderManagement";
+import UserInfo from "../views/UserInfo";
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,12 @@ const routes = [
         name: 'orders',
         component: OrderManagement
     },
+    {
+        path: '/user',
+        name: 'user',
+        component: UserInfo
+    },
+
     {
         path: '/charts',
         name: 'charts',

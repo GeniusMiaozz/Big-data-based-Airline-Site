@@ -16,6 +16,8 @@
                         <b-nav-item v-else href="#">会员专区</b-nav-item>
                         <b-nav-item v-if="index===4" active to="/orders">订单管理</b-nav-item>
                         <b-nav-item v-else to="/orders">订单管理</b-nav-item>
+                        <b-nav-item v-if="index===5" active to="/user">个人中心</b-nav-item>
+                        <b-nav-item v-else to="/user">个人中心</b-nav-item>
                     </b-navbar-nav>
 
                     <!-- Right aligned nav items -->
@@ -39,7 +41,7 @@
 <script>
     export default {
         name: "Header",
-        props: ['index','username'],
+        props: ['index', 'username'],
         methods: {
             logout() {
                 window.sessionStorage.removeItem('token')

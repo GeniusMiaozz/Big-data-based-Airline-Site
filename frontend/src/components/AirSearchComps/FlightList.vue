@@ -69,7 +69,7 @@
                         <b-row align-h="center">
                             <b-col @click="choose_ticket(0,item)">
                                 <label class="price">
-                                    经济舱：￥{{item.E_Price}}
+                                    经济舱：￥{{~~(item.E_Price*item.E_Discount)}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.E_Tickets}}</b-badge>
                                 </label>
                             </b-col>
@@ -82,7 +82,7 @@
                         <b-row align-h="center">
                             <b-col @click="choose_ticket(1,item)">
                                 <label class="price">
-                                    超级经济舱：￥{{item.S_Price}}
+                                    超级经济舱：￥{{~~(item.S_Price*item.S_Discount)}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.S_Tickets}}</b-badge>
                                 </label>
                             </b-col>
@@ -95,7 +95,7 @@
                         <b-row align-h="center">
                             <b-col @click="choose_ticket(2,item)">
                                 <label class="price">
-                                    头等舱：￥{{item.F_Price}}
+                                    头等舱：￥{{~~(item.F_Price*item.F_Discount)}}
                                     <b-badge variant="success" style="margin-left: 5px">{{item.F_Tickets}}</b-badge>
                                 </label>
 

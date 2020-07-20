@@ -14,7 +14,7 @@
                 </b-col>
                 <b-col>
                     <P style="font-size: 20px;margin: 2px;color: brown">
-                        {{ticket_type_name}}：￥{{ticket_price}}
+                        {{ticket_type_name}}：￥{{~~(ticket_price*ticket_discount)}}
                     </P>
                 </b-col>
             </b-row>
@@ -74,10 +74,10 @@
             <b-row align-h="start">
                 <b-col cols="6" style="font-size: 1.3em;font-weight: bold;margin: auto">
                     总收费：
-                    {{ticket_price}} X {{num}} = {{ticket_price*num}} ￥
+                    {{ticket_price}} X {{ticket_discount}} X {{num}} = {{~~(ticket_price*ticket_discount*num)}} ￥
                 </b-col>
                 <b-col style="margin: auto">
-                    <b-button variant="primary">提交订单</b-button>
+                    <b-button variant="primary" @click="SubmitOrders">提交订单</b-button>
                 </b-col>
             </b-row>
         </b-card>
@@ -112,7 +112,9 @@
                     },
                 ticket_type_name: null,
                 ticket_price: 0,
-                num:0,
+                ticket_discount: 1,
+                ticket_type_name_x: 'E',
+                num: 0,
 
                 ticket_type_normal: 0,
                 fields: [
@@ -139,7 +141,44 @@
             delete_p(index) {
                 if (this.items.length > 1) {
                     this.items.splice(index, 1);
+                    this.num--;
                 }
+            },
+            SubmitOrders() {
+                const _this = this;
+                const params = new URLSearchParams();
+                params.append('token', window.sessionStorage.getItem('token'))
+                let data = []
+                for (let i = 0; i < this.num; i++) {
+                    data.push(
+                        {
+                            flight_no: _this.ticket_info_normal.Flight_No,
+                            date: _this.ticket_info_normal.Dep_Scheduled.split(' ')[0],
+                            seat_level: _this.ticket_type_name_x,
+                        }
+                    )
+                }
+
+                this.$axios(
+                    {
+                        method: 'post',
+                        url: '/api/authenticated/book',
+                        // contentType:'application/json',
+                        params: params,
+                        header: {
+                            'Content-Type': 'application/json',
+                        },
+                        data: data
+                    }
+                ).then(function (response) {
+                    console.log(response.data);
+                    console.log(response.status);
+                    console.log(response.statusText);
+                    console.log(response.headers);
+                    console.log(response.config);
+                }).catch(
+                    error => console.log(error)
+                );
             }
         },
         mounted: function () {
@@ -149,15 +188,18 @@
                 _this.ticket_type_normal = m.ticket_type
                 let typeList = ["经济舱", "超级经济舱", "头等舱"]
                 let priceList = [_this.ticket_info_normal['E_Price'], _this.ticket_info_normal['S_Price'], _this.ticket_info_normal['F_Price']]
-
+                let discountList = [_this.ticket_info_normal['E_Discount'], _this.ticket_info_normal['S_Discount'], _this.ticket_info_normal['F_Discount']]
+                let types_s = ['E', 'S', 'F']
                 _this.ticket_type_name = typeList[m.ticket_type]
                 _this.ticket_price = priceList[m.ticket_type];
+                _this.ticket_discount = discountList[m.ticket_type]
                 _this.ticket_display = true
+                _this.ticket_type_name_x = types_s[m.ticket_type]
                 _this.bill_display = _this.user_display && _this.ticket_display
             });
             Msg.$on('user_info', function (m) {
                 _this.items = []
-                _this.num=m.nums
+                _this.num = m.nums
                 for (let i = 0; i < m.nums; i++) {
                     var tmp = {
                         index: i,
