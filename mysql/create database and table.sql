@@ -71,6 +71,11 @@ CREATE TABLE `airline`.`flight_query_table` (
   `F_PRICE` FLOAT NOT NULL,					-- 高价票票价
   `F_DISCOUNT` FLOAT NOT NULL,				-- 高价票折扣
   `F_TICKETS` INT NOT NULL,					-- 高价票票数
+  `BAGGAGE_TOKEN` FLOAT NOT NULL,			-- 行李托运开销
+  `ACCIDENT_INSURANCE_TOKEN` FLOAT NOT NULL,-- 航空意外险开销
+  `DUTY_INSURANCE_TOKEN` FLOAT NOT NULL,	-- 航空责任险开销
+  `DELAY_INSURANCE_TOKEN` FLOAT NOT NULL,	-- 航空延误险开销
+  `FOOD_TOKEN` FLOAT NOT NULL,				-- 旅行餐饮开销
   PRIMARY KEY (`FLIGHT_NO`, `DATE`));
 
 -- 7.创建订单管理表 order_manage_table
@@ -78,11 +83,12 @@ CREATE TABLE `airline`.`order_manage_table` (
   `ORDER_NUMBER` BIGINT UNSIGNED NOT NULL,	-- 订单号
   `FLIGHT_NO` VARCHAR(10) NOT NULL,			-- 航班号
   `DATE` DATE NOT NULL,						-- 日期
+  `SEAT_LEVEL` VARCHAR(1) NOT NULL,         -- 座位等级
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 会员卡号
-  `DEP_CT` TEXT NOT NULL,					-- 起飞城市
-  `ARR_CT` TEXT NOT NULL,					-- 到达城市
   `REFUND_OR_CHANGE` INT UNSIGNED NOT NULL,	-- 退票、改签的标志位
   `POINT` INT NOT NULL,						-- 订单积分
+  `PRICE` FLOAT NOT NULL,              		-- 机票原价
+  `DISCOUNT` FLOAT NOT NULL,                -- 购买时折扣
   PRIMARY KEY (`ORDER_NUMBER`),
   INDEX `Foreign_idx` (`FLIGHT_NO` ASC, `DATE` ASC, `MEMBER_NO` ASC) VISIBLE,
   CONSTRAINT `Foreign_2`
@@ -97,37 +103,23 @@ CREATE TABLE `airline`.`order_manage_table` (
     ON UPDATE NO ACTION);
 
 -- 8.创建增值服务表 additional_ service_table
-CREATE TABLE `airline`.`additional_ service_table` (
+CREATE TABLE `airline`.`additional_service_table` (
   `ORDER_NUMBER` BIGINT UNSIGNED NOT NULL,	-- 订单号
   `BAGGAGE` TEXT NULL,						-- 行李托运信息
   `INSURANCE` TEXT NULL,					-- 保险信息
   `FOOD` TEXT NULL,							-- 餐饮信息
-  `CUSTOMER_SERVICE` TEXT NULL,				-- 客户服务信息
   PRIMARY KEY (`ORDER_NUMBER`),
   CONSTRAINT `Foreign_3`
     FOREIGN KEY (`ORDER_NUMBER`)
     REFERENCES `airline`.`order_manage_table` (`ORDER_NUMBER`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-    
--- 9.创建航班信息确认表 flight_information_table
-CREATE TABLE `airline`.`flight_information_table` (
-  `ORDER_NUMBER` BIGINT UNSIGNED NOT NULL,	-- 订单号
-  `SEAT_NO` VARCHAR(10) NOT NULL,			-- 座位号
-  `VALUE_ADD_SERVICE` TEXT NULL,			-- 增值服务
-  PRIMARY KEY (`ORDER_NUMBER`),
-  CONSTRAINT `Foreign_4`
-    FOREIGN KEY (`ORDER_NUMBER`)
-    REFERENCES `airline`.`order_manage_table` (`ORDER_NUMBER`)
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION);						
-
--- 10.创建会员积分明细表 points_details_table
+    			
+-- 9.创建会员积分明细表 points_details_table
 CREATE TABLE `airline`.`points_details_table` (
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 用户会员卡号
   `SEG_KM_SUM` INT UNSIGNED NOT NULL,		-- 总飞行公里数
   `EXCHANGE_COUNT` INT UNSIGNED NOT NULL,	-- 积分兑换次数
-  `REMAIN_POINT` INT UNSIGNED NOT NULL,		-- 剩余积分
   `EP_SUM` INT UNSIGNED NOT NULL,			-- 总精英积分
   `ADD_POINTS_SUM` INT UNSIGNED NOT NULL,	-- 其他积分
   `POINTS_SUM` INT UNSIGNED NOT NULL,		-- 总累计积分
@@ -138,17 +130,20 @@ CREATE TABLE `airline`.`points_details_table` (
     ON DELETE CASCADE						-- 设置级联更新及删除
     ON UPDATE CASCADE);
 
--- 11.创建会员积分兑换表 points_exchange_table
+-- 10.创建会员积分兑换表 points_exchange_table
 CREATE TABLE `airline`.`points_exchange_table` (
   `FLIGHT_NO` VARCHAR(10) NOT NULL,			-- 兑换航班号
   `POINTS_NEED` INT UNSIGNED NOT NULL,		-- 兑换所需积分
-  `DEP_CT`TEXT NOT NULL,					-- 起飞城市
+  `DEP_CT` TEXT NOT NULL,					-- 起飞城市
   `ARR_CT` TEXT NOT NULL,					-- 到达城市
   `DEP_TIME` DATETIME NOT NULL,				-- 起飞时间
+  `ARR_TIME` DATETIME NOT NULL,				-- 到达时间
   PRIMARY KEY (`FLIGHT_NO`));
 
--- 12.创建会员里程升舱表
-CREATE TABLE `airline`.`mileage_upgrade_table` (
-  `FLIGHT_NO` VARCHAR(10) NOT NULL,			-- 升舱航班号
-  `MILEAGE` DOUBLE NOT NULL,				-- 升舱所需里程
-  PRIMARY KEY (`FLIGHT_NO`));
+-- 11.创建用户组内推荐使用的地点信息表 recommend_city_table
+CREATE TABLE `airline`.`recommend_city_table`  (
+  `ID` INT NOT NULL,						-- 用于做主键的标号
+  `CITY` VARCHAR(4) NOT NULL,				-- 城市名
+  `COUNT` BIGINT NOT NULL,					-- 用户目的地出现的次数
+  `TYPE` INT NOT NULL,						-- 聚类得到的类别
+  PRIMARY KEY (`ID`))

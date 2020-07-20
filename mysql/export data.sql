@@ -33,3 +33,27 @@ select * from `airline`.`order_manage_table`
 into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/order_manage_data_out.csv'
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
+
+-- 6.导出additional_service_table表中的数据
+select * from `airline`.`additional_service_table`
+into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/additional_service_data_out.csv'
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';
+
+-- 7.导出points_details_table表中的数据
+select * from `airline`.`points_details_table`
+into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/points_details_data_out.csv'
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';
+
+-- 8.导出points_exchange_table表中的数据
+select * from `airline`.`points_exchange_table`
+into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/flight_exchange_data_out.csv'
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';
+
+-- 9.导出recommend_city_table表中的数据
+select * from `airline`.`recommend_city_table`
+into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/recommend_city_data_in.csv'
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';

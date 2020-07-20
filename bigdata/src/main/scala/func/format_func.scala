@@ -86,7 +86,7 @@ object format_func {
   }
 
   //根据出发时间和到达时间,生成票价/积分
-  def get_price(dep_time: String, arr_time: String, coef: Int, addi: Int): String = {
+  def get_token(dep_time: String, arr_time: String, coef: Int, addi: Int): String = {
     val hour = if (arr_time.split(":")(0).toInt >= dep_time.split(":")(0).toInt)
       arr_time.split(":")(0).toInt - dep_time.split(":")(0).toInt
     else arr_time.split(":")(0).toInt + 24 - dep_time.split(":")(0).toInt
@@ -133,12 +133,15 @@ object format_func {
         + "T" + (Random.nextInt(3) + 1).toString + ',' //到达航站楼
         + row(1) + " " + row(4) + ',' //起飞时间
         + get_arr_date(row(4), row(5), row(1)) + " " + row(5) + ',' //到达时间
-        + get_price(row(4), row(5), 750, 150) //低价票票价
+        + get_token(row(4), row(5), 750, 150) //低价票票价
         + "," + "0." + (10 + Random.nextInt(30)).toString + ',' + Random.nextInt(181).toString + ',' //低价票座位数,折扣系数
-        + get_price(row(4), row(5), 1250, 250) //中价票票价
+        + get_token(row(4), row(5), 1250, 250) //中价票票价
         + "," + "0." + (20 + Random.nextInt(40)).toString + ',' + Random.nextInt(51).toString + ',' //中价票座位数,折扣系数
-        + get_price(row(4), row(5), 1750, 350) //高价票票价
-        + "," + "0." + (30 + Random.nextInt(50)).toString + ',' + Random.nextInt(21).toString) //高价票座位数,折扣系数
+        + get_token(row(4), row(5), 1750, 350) //高价票票价
+        + "," + "0." + (30 + Random.nextInt(50)).toString + ',' + Random.nextInt(21).toString + ',' //高价票座位数,折扣系数
+        + get_token(row(4), row(5), 15, 10) + ',' + get_token(row(4), row(5), 5, 1) + ','
+        + get_token(row(4), row(5), 3, 1) + ',' + get_token(row(4), row(5), 2, 1) + ','
+        + (15 + Random.nextInt(30)).toString)
     flight_info.saveAsTextFile("output/flight_query")
     //flight_info.foreach(println)
   }
@@ -188,20 +191,54 @@ object format_func {
       }
     }
 
-    val flight_data = ss.sparkContext.textFile("data/flight_data.csv").map(_.split(","))
-      .map(row => row(0) + ',' + row(1) + ',' + row(2) + ',' + row(3) + ',' //航班号,日期,出发地,到达地
-        + get_price(row(4), row(5), 100, 1)).take(100) //积分
+    //随机生成低价票、中价票、高价票的选择
+    val ticket_choose = ArrayBuffer.empty[Int]
+    while (ticket_choose.size < 100) {
+      val tid = Random.nextInt(3)
+      if ((tid == 0) || (tid == 2) || (tid == 4))
+        ticket_choose += tid
+    }
 
+    val flight_data = ss.sparkContext.textFile("data/order_use_data.csv").map(_.split(","))
+      .map(row => row(1) + ',' + row(2) + ',' //航班号,日期
+        + get_token(row(9).split(' ')(1), row(10).split(' ')(1), 100, 1) + ',' //积分
+        + row(11) + ',' + row(12) + ',' + row(14) + ',' + row(15) + ',' + row(17) + ',' + row(18)) //三种票价
+      .take(100)
+
+    val seat_level = Map(0 -> 'E', 1 -> 'S', 2 -> 'F')
     val order_data = ArrayBuffer[String]()
     for (index <- 0 to 99) {
       order_data += order_num(index).toString + ',' + flight_data(index).split(",")(0) + ',' + //订单号,航班号
-        flight_data(index).split(",")(1) + ',' + user_num(index) + ',' + //日期,会员卡号
-        flight_data(index).split(",")(2) + ',' + flight_data(index).split(",")(3) + ",0," + //起飞地,到达地,退票/改签标志位
-        flight_data(index).split(",")(4)//积分
+        flight_data(index).split(",")(1) + ',' + seat_level(Random.nextInt(3)) + ',' + user_num(index) + ',' + //日期,座位等级,会员卡号
+        Random.nextInt(4).toString + ',' + flight_data(index).split(",")(2) + ',' + //退票/改签标志位,积分
+        flight_data(index).split(",")(3 + ticket_choose(index)) + ',' + flight_data(index).split(",")(4 + ticket_choose(index))
     }
-    var order_rdd = ss.sparkContext.parallelize(order_data.toList)
-
+    val order_rdd = ss.sparkContext.parallelize(order_data.toList)
     order_rdd.saveAsTextFile("output/order_manage")
     //order_rdd.foreach(println)
+  }
+
+  //格式化增值服务信息并写入
+  def format_service_data(ss: SparkSession): Unit = {
+    val baggage_data = Map(0 -> "未办理额外行李托运", 1 -> "已办理额外行李托运")
+    val insurance_data = Map(0 -> "未选择任何保险业务", 1 -> "航空意外险", 2 -> "航空责任保险", 3 -> "航班延误险",
+      4 -> "航空意外险/航空责任保险", 5 -> "航空意外险/航班延误险", 6 -> "航空责任保险/航班延误险", 7 -> "航空意外险/航班延误险/航班延误险")
+    val food_data = Map(0 -> "未订购旅行餐饮", 1 -> "已订购旅行餐饮")
+
+    val add_service_data = ss.sparkContext.textFile("data/order_number_data.csv").map(row => row.toString + ',' +
+      baggage_data(Random.nextInt(2)) + ',' + insurance_data(Random.nextInt(8)) + ',' +
+      food_data(Random.nextInt(2)))
+
+    add_service_data.saveAsTextFile("output/add_service_data")
+    //add_service_data.foreach(println)
+  }
+
+  //格式化航班兑换信息并写入
+  def format_flight_exchange_data(ss: SparkSession): Unit = {
+    val flight_exchange_info = ss.sparkContext.textFile("data/flight_data.csv").map(_.split(","))
+      .map(row => row(0) + ',' + get_token(row(4), row(5), 888, 1) + ',' + row(2) + ',' + row(3) + ',' + row(1) + ' ' + row(4) + ','
+        + get_arr_date(row(4), row(5), row(1)) + ' ' + row(5))
+    flight_exchange_info.saveAsTextFile("output/flight_exchange")
+    //flight_exchange_info.foreach(println)
   }
 }
