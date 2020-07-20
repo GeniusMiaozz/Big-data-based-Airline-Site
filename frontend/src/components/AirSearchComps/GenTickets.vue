@@ -163,19 +163,18 @@
                     {
                         method: 'post',
                         url: '/api/authenticated/book',
-                        // contentType:'application/json',
                         params: params,
                         header: {
                             'Content-Type': 'application/json',
                         },
-                        data: data
+                        data: data,
                     }
                 ).then(function (response) {
-                    console.log(response.data);
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    console.log(response.headers);
-                    console.log(response.config);
+                    console.log(response);
+                    _this.$message({
+                        message:"成功订购"+_this.num+"张票",
+                        type: 'success'
+                    })
                 }).catch(
                     error => console.log(error)
                 );

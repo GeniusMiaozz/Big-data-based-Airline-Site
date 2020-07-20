@@ -146,12 +146,14 @@
         methods: {
             loadTicketsFromBackend(m) {
                 const obj = this;
-                const url = 'http://127.0.0.1:8080/searchforflight?'
-                    + 'city_from=' + m.city_from
-                    + '&city_to=' + m.city_to
-                    + '&date_start=' + m.date_start;
-
-                this.$axios.get(url).then(
+                const url = '/api/searchforflight'
+                this.$axios.get(url, {
+                    params: {
+                        city_from: m.city_from,
+                        city_to: m.city_to,
+                        date_start: m.date_start,
+                    }
+                }).then(
                     function (res) {
                         obj.tickets = res.data['flights'];
                         obj.show = true;
@@ -164,8 +166,7 @@
                     }
                 ).catch(
                     function (error) {
-                        console.log(error.response.status);
-                        status = error.response.status;
+                        console.log(error);
                     }
                 )
             },
@@ -196,9 +197,9 @@
                 Msg.$emit("choose_ticket",
                     {ticket_type: ticket_type, ticket_info: ticket_info})
                 this.$message({
-                        message: "机票选择成功",
-                        type: 'success'
-                    })
+                    message: "机票选择成功",
+                    type: 'success'
+                })
             }
 
         },

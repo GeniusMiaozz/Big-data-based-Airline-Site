@@ -53,7 +53,7 @@
                     if (!valid) return;
 
                     //连接后台go服务器部分
-                    const url='http://localhost:8080/signin'
+                    const url='/api/signin';
                     const params = new URLSearchParams();
                     params.append('telephone',this.loginForm.telephone)
                     params.append('password',this.loginForm.password)

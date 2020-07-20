@@ -12,23 +12,37 @@
 
                         <template v-slot:row-details="row">
                             <b-card>
+
                                 <b-row class="mb-2">
-                                    <b-col sm="3" class="text-sm-right"><b>乘机人:</b></b-col>
-                                    <b-col>{{ row.item.username }}</b-col>
+                                    <b-col sm="3" class="text-sm-right"><b>订单编号:</b></b-col>
+                                    <b-col>{{ row.item.Order_No }}</b-col>
                                 </b-row>
 
                                 <b-row class="mb-2">
-                                    <b-col sm="3" class="text-sm-right"><b>Is Active:</b></b-col>
-                                    <b-col>{{ row.item.isActive }}</b-col>
+                                    <b-col sm="3" class="text-sm-right"><b>乘客编号:</b></b-col>
+                                    <b-col>{{ row.item.Member_No }}</b-col>
                                 </b-row>
+
+                                <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>机舱类型:</b></b-col>
+                                    <b-col>{{ row.item.seat }}</b-col>
+                                </b-row>
+
+                                <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>票价:</b></b-col>
+                                    <b-col>{{ ~~(row.item.Price*row.item.Discount) }} ￥</b-col>
+                                </b-row>
+
                                 <b-row>
                                     <b-col sm="4" offset-sm="8" class="text-sm-center">
                                         <b-button-group>
                                             <b-button variant="dark">改签</b-button>
-                                            <b-button variant="primary">删除</b-button>
+                                            <b-button @click="refund(row.item.Order_No)" variant="primary">退款
+                                            </b-button>
                                         </b-button-group>
                                     </b-col>
                                 </b-row>
+
                             </b-card>
                         </template>
                     </b-table>
@@ -39,29 +53,26 @@
 </template>
 
 <script>
+    import JSONBig from "json-bigint";
+
     export default {
         name: "OrderList",
-        data() {
+        data: function () {
             return {
                 fields: [
-                    {
-                        key: 'id',
-                        label: '编号',
-                        sortable: true
-                    },
                     {
                         key: 'flight_no',
                         label: '航班号',
                         sortable: true
                     },
                     {
-                        key: 'company',
-                        label: '航空公司',
+                        key: 'date',
+                        label: '乘机日期',
                         sortable: true
                     },
                     {
-                        key: 'date',
-                        label: '购票日期',
+                        key: 'available',
+                        label: '航班状况',
                         sortable: true
                     },
                     {
@@ -69,42 +80,75 @@
                         label: '显示详情',
                         sortable: false
                     }
-
                 ],
                 items: [
                     {
-                        id: 0,
                         flight_no: 'MU201',
-                        company: '东方航空',
-                        isActive: true,
-                        username: '小明',
                         date: '2020-2-10 10:00:00'
                     },
-                    {
-                        id: 1,
-                        flight_no: 'MU201',
-                        company: '东方航空',
-                        isActive: false,
-                        username: '小红',
-                        date: '2020-2-11 10:11:11'
-                    },
-                    {
-                        id: 2,
-                        flight_no: 'MU201',
-                        company: '东方航空',
-                        isActive: false,
-                        username: '小刚',
-                        date: '2020-2-12 10:00:00'
-                    },
-                    {
-                        id: 3,
-                        flight_no: 'MU201',
-                        company: '东方航空',
-                        isActive: true,
-                        username: '小花',
-                        date: '2020-2-13 10:00:00'
-                    }
                 ]
+            }
+        },
+
+        created() {
+            let _this = this;
+            const url = '/api/authenticated/personal';
+
+            this.$axios(
+                {
+                    method: 'get',
+                    url: url,
+                    params: {
+                        token: window.sessionStorage.getItem('token')
+                    },
+                    transformResponse: [
+                        function (data) {
+                            return JSONBig.parse(data)
+                        }
+                    ]
+                }
+            ).then(function (response) {
+                let order = response.data.order;
+                console.log(order);
+                let seat_types = {
+                    E: '经济舱',
+                    S: '超级经济舱',
+                    F: '豪华舱'
+                }
+                let flight_state = ['待起飞', '已使用', '已退票']
+
+                _this.items = [];
+                for (let i = 0; i < order.length; i++) {
+                    order[i]['available'] = flight_state[order[i]['Refund_Or_Change']]
+                    order[i]['seat'] = seat_types[order[i]['seat_level']]
+                    _this.items.push(order[i])
+                    _this.$message({
+                        message: "退票成功",
+                        type: 'success'
+                    })
+                }
+            }).catch(
+                function (error) {
+                    console.log(error)
+                }
+            )
+        },
+        methods: {
+            refund(order_number) {
+                const url = "/api/authenticated/refund"
+                console.log(order_number)
+                this.$axios.get(
+                    url, {
+                        params: {
+                            token: window.sessionStorage.getItem('token'),
+                            order_number: order_number.c[0].toString() + order_number.c[1].toString(),
+                        }
+                    }
+                ).then(
+                    function (response) {
+                        console.log(response)
+                    }
+                ).catch(error => console.log(error))
             }
         }
     }

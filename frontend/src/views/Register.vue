@@ -79,7 +79,7 @@
                     params.append('telephone', this.registerForm.telephone);
                     params.append('password', this.registerForm.password);
                     let status = 400;
-                    await this.$axios.post('http://localhost:8080/signup', params).then(
+                    await this.$axios.post('/api/signup', params).then(
                         function (response) {
                             console.log(response);
                             status = response.status;
