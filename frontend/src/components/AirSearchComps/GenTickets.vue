@@ -63,6 +63,7 @@
                 </template>
             </b-table>
         </b-card>
+
         <b-card
                 class="shadow-sm"
                 border-variant="danger"
@@ -76,14 +77,23 @@
                     总收费：
                     {{ticket_price}} X {{ticket_discount}} X {{num}} = {{~~(ticket_price*ticket_discount*num)}} ￥
                 </b-col>
-                <b-col style="margin: auto">
+                <b-col cols="3" style="margin: auto;text-align: right">
                     <b-button variant="primary" @click="SubmitOrders">提交订单</b-button>
+                </b-col>
+                <b-col cols="3" style="margin: auto; text-align: left">
+                    <b-form-checkbox
+                            id="checkbox-1"
+                            v-model="status"
+                            name="checkbox-1"
+                            value="true"
+                            unchecked-value="false"
+                    >
+                        是否使用积分付款
+                    </b-form-checkbox>
                 </b-col>
             </b-row>
         </b-card>
     </div>
-
-
 </template>
 
 <script>
@@ -93,6 +103,8 @@
         name: "GenTickets",
         data() {
             return {
+                status: false,
+                status_x: "false",
                 ticket_display: false,
                 user_display: false,
                 ticket_info_normal:
@@ -148,6 +160,12 @@
                 const _this = this;
                 const params = new URLSearchParams();
                 params.append('token', window.sessionStorage.getItem('token'))
+                if (_this.status_x === 'true') {
+                    _this.status = true
+                } else {
+                    _this.status = false
+                }
+                params.append('withpoints', _this.status)
                 let data = []
                 for (let i = 0; i < this.num; i++) {
                     data.push(
@@ -158,6 +176,7 @@
                         }
                     )
                 }
+                console.log(data)
 
                 this.$axios(
                     {
@@ -172,7 +191,7 @@
                 ).then(function (response) {
                     console.log(response);
                     _this.$message({
-                        message:"成功订购"+_this.num+"张票",
+                        message: "成功订购" + _this.num + "张票",
                         type: 'success'
                     })
                 }).catch(
