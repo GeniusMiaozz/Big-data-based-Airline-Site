@@ -35,8 +35,8 @@
 
                                 <b-row>
                                     <b-col sm="4" offset-sm="8" class="text-sm-center">
-                                        <b-button-group>
-                                            <b-button variant="dark">改签</b-button>
+                                        <b-button-group v-if="row.item.Refund_Or_Change===0" >
+                                            <b-button variant="dark">设置已起飞</b-button>
                                             <b-button @click="refund(row.item.Order_No)" variant="primary">退款
                                             </b-button>
                                         </b-button-group>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import JSONBig from "json-bigint";
+    import Msg from "../assets/axios/infoMsg.js"
 
     export default {
         name: "OrderList",
@@ -85,46 +85,28 @@
             }
         },
 
-        created() {
-            let _this = this;
-            const url = '/api/authenticated/personal';
+        mounted() {
+            Msg.$on("order", m => this.setOrderList(m))
+        },
+        methods: {
 
-            this.$axios(
-                {
-                    method: 'get',
-                    url: url,
-                    params: {
-                        token: window.sessionStorage.getItem('token')
-                    },
-                    transformResponse: [
-                        function (data) {
-                            return JSONBig.parse(data)
-                        }
-                    ]
-                }
-            ).then(function (response) {
-                let order = response.data.order;
-                console.log(order);
+            // 设置订单列表数据
+            setOrderList(order) {
                 let seat_types = {
                     E: '经济舱',
                     S: '超级经济舱',
                     F: '豪华舱'
                 }
-                let flight_state = ['待起飞', '已使用', '已退票']
+                let flight_state = ['待起飞', '已改签', '已退票','已起飞']
 
-                _this.items = [];
+                this.items = [];
                 for (let i = 0; i < order.length; i++) {
                     order[i]['available'] = flight_state[order[i]['Refund_Or_Change']]
                     order[i]['seat'] = seat_types[order[i]['seat_level']]
-                    _this.items.push(order[i])
+                    this.items.push(order[i])
                 }
-            }).catch(
-                function (error) {
-                    console.log(error)
-                }
-            )
-        },
-        methods: {
+            },
+            // 退票
             refund(order_number) {
                 const url = "/api/authenticated/refund"
                 const _this = this
@@ -142,7 +124,7 @@
                         _this.$message({
                             message: "退票成功",
                             type: 'success'
-                        })
+                        });
                     }
                 ).catch(error => console.log(error))
             }

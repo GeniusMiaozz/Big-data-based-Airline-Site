@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-07-10 15:55:00
- * @LastEditTime: 2020-07-10 20:13:38
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \Sword Finger Offerc:\Users\miaoz\Desktop\NEU Soft Big Data\AirLine\Big-data-based-Airline-Site\frontend\src\router\index.js
- */ 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from "../views/Login";
@@ -15,14 +7,13 @@ import Register from "../views/Register";
 import AirSearch from "../views/AirSearch";
 import Charts from "../views/Charts";
 import OrderManagement from "../views/OrderManagement";
-import UserInfo from "../views/UserInfo";
 
 Vue.use(VueRouter)
 
 const routes = [
     {
         path: '/',
-        redirect: '/charts'
+        redirect: '/login'
     },
     {
         path: '/login',
@@ -50,12 +41,6 @@ const routes = [
         component: OrderManagement
     },
     {
-        path: '/user',
-        name: 'user',
-        component: UserInfo
-    },
-
-    {
         path: '/charts',
         name: 'charts',
         component: Charts
@@ -80,7 +65,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login' || to.path === '/register' || to.path === '/charts') return next();
     // 获取token
     const tokenStr = window.sessionStorage.getItem('token')
-    if (!tokenStr) return next('/charts');
+    if (!tokenStr) return next('/login');
     next()
 })
 
