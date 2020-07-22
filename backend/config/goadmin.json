@@ -1,0 +1,22 @@
+{
+	"database":{
+		"default":{
+			"Host":"localhost",
+			"Port":"3306",
+			"User":"root",
+			"Pwd":"Neu1923$",
+			"Name":"airline",
+			"MaxIdleConn":8,
+			"MaxOpenConn":16,
+			"Driver":"mysql"
+		}
+	},
+	"language":"zh",
+	"prefix":"admin",
+	"store":{
+		"Path":"./uploads",
+		"Prefix":"uploads"
+	},
+	"title":"Air Console",
+	"login_title":"Air Console"
+}
