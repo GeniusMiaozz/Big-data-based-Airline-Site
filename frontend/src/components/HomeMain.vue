@@ -29,7 +29,7 @@
         <!--特价机票-->
         <b-row class="recommend">
             <h2>
-                <b-badge variant="info" style="font-weight: normal">特价机票</b-badge>
+                <b-badge variant="info" style="font-weight: normal">机票推荐</b-badge>
             </h2>
         </b-row>
         <b-row class="recommend">
@@ -65,7 +65,7 @@
         <!--游记-->
         <b-row class="recommend">
             <h2>
-                <b-badge variant="primary" style="font-weight: normal">商城优惠</b-badge>
+                <b-badge variant="primary" style="font-weight: normal">景点推荐</b-badge>
             </h2>
         </b-row>
         <b-row class="recommend">

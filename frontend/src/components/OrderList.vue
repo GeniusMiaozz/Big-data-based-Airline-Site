@@ -35,7 +35,7 @@
 
                                 <b-row>
                                     <b-col sm="4" offset-sm="8" class="text-sm-center">
-                                        <b-button-group v-if="row.item.Refund_Or_Change===0" >
+                                        <b-button-group v-if="row.item.Refund_Or_Change===0">
                                             <b-button variant="dark">设置已起飞</b-button>
                                             <b-button @click="refund(row.item.Order_No)" variant="primary">退款
                                             </b-button>
@@ -97,13 +97,15 @@
                     S: '超级经济舱',
                     F: '豪华舱'
                 }
-                let flight_state = ['待起飞', '已改签', '已退票','已起飞']
+                let flight_state = ['待起飞', '已改签', '已退票', '已起飞']
 
                 this.items = [];
-                for (let i = 0; i < order.length; i++) {
-                    order[i]['available'] = flight_state[order[i]['Refund_Or_Change']]
-                    order[i]['seat'] = seat_types[order[i]['seat_level']]
-                    this.items.push(order[i])
+                if (order != null) {
+                    for (let i = 0; i < order.length; i++) {
+                        order[i]['available'] = flight_state[order[i]['Refund_Or_Change']]
+                        order[i]['seat'] = seat_types[order[i]['seat_level']]
+                        this.items.push(order[i])
+                    }
                 }
             },
             // 退票

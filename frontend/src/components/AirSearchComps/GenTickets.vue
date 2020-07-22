@@ -49,6 +49,52 @@
         <b-card
                 class="shadow-sm"
                 border-variant="secondary"
+                v-show="ticket_display"
+                header="增值服务"
+                header-border-variant="secondary"
+                align="center"
+                style="margin-bottom: 2em"
+        >
+            <b-row>
+                <b-col cols="4">
+                    <b-form-group label="额外行李托运">
+                        <b-form-radio-group
+                                id="radio-group-1"
+                                v-model="selected1"
+                                :options="options1"
+                                name="radio-options-1"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col cols="4">
+                    <b-form-group label="保险办理">
+                        <b-form-checkbox-group
+                                id="checkbox-group-1"
+                                v-model="selected3"
+                                :options="options3"
+                                name="flavour-1"
+                        ></b-form-checkbox-group>
+                    </b-form-group>
+                </b-col>
+
+                <b-col cols="4">
+                    <b-form-group label="订购餐饮">
+                        <b-form-radio-group
+                                id="radio-group-2"
+                                v-model="selected2"
+                                :options="options2"
+                                name="radio-options-2"
+                        />
+                    </b-form-group>
+                </b-col>
+            </b-row>
+
+        </b-card>
+
+
+        <b-card
+                class="shadow-sm"
+                border-variant="secondary"
                 v-show="user_display"
                 header="乘客信息"
                 header-border-variant="secondary"
@@ -147,6 +193,27 @@
                 bill_display: false,
 
                 items: null,
+
+                // 增值服务部分
+                selected1: "未办理额外行李托运",
+                options1: [
+                    {text: '办理', value: '已办理额外行李托运'},
+                    {text: '不办理', value: '未办理额外行李托运'}
+                ],
+
+                selected2: "未订购旅行餐饮",
+                options2: [
+                    {text: '订购', value: '已订购旅行餐饮'},
+                    {text: '不订购', value: '未订购旅行餐饮'}
+                ],
+
+                selected3: [],
+                options3: [
+                    {text: '意外险', value: '航空意外险'},
+                    {text: '延误险', value: '航班延误险'},
+                ]
+
+
             }
         },
         methods: {
@@ -160,11 +227,7 @@
                 const _this = this;
                 const params = new URLSearchParams();
                 params.append('token', window.sessionStorage.getItem('token'))
-                if (_this.status_x === 'true') {
-                    _this.status = true
-                } else {
-                    _this.status = false
-                }
+                _this.status = _this.status_x === 'true';
                 params.append('withpoints', _this.status)
                 let data = []
                 for (let i = 0; i < this.num; i++) {
@@ -197,6 +260,11 @@
                 }).catch(
                     error => console.log(error)
                 );
+
+                // const params_
+
+
+
             }
         },
         mounted: function () {
