@@ -81,12 +81,7 @@
                         sortable: false
                     }
                 ],
-                items: [
-                    {
-                        flight_no: 'MU201',
-                        date: '2020-2-10 10:00:00'
-                    },
-                ]
+                items: []
             }
         },
 
@@ -122,10 +117,6 @@
                     order[i]['available'] = flight_state[order[i]['Refund_Or_Change']]
                     order[i]['seat'] = seat_types[order[i]['seat_level']]
                     _this.items.push(order[i])
-                    _this.$message({
-                        message: "退票成功",
-                        type: 'success'
-                    })
                 }
             }).catch(
                 function (error) {
@@ -136,6 +127,7 @@
         methods: {
             refund(order_number) {
                 const url = "/api/authenticated/refund"
+                const _this = this
                 console.log(order_number)
                 this.$axios.get(
                     url, {
@@ -147,6 +139,10 @@
                 ).then(
                     function (response) {
                         console.log(response)
+                        _this.$message({
+                            message: "退票成功",
+                            type: 'success'
+                        })
                     }
                 ).catch(error => console.log(error))
             }
