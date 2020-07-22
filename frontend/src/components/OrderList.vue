@@ -29,6 +29,21 @@
                                 </b-row>
 
                                 <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>额外行李:</b></b-col>
+                                    <b-col>{{ row.item.Baggage }}</b-col>
+                                </b-row>
+
+                                <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>保险:</b></b-col>
+                                    <b-col>{{ row.item.Insurance }}</b-col>
+                                </b-row>
+
+                                <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>餐饮:</b></b-col>
+                                    <b-col>{{ row.item.Food }}</b-col>
+                                </b-row>
+
+                                <b-row class="mb-2">
                                     <b-col sm="3" class="text-sm-right"><b>票价:</b></b-col>
                                     <b-col>{{ ~~(row.item.Price*row.item.Discount) }} ￥</b-col>
                                 </b-row>
@@ -86,12 +101,13 @@
         },
 
         mounted() {
-            Msg.$on("order", m => this.setOrderList(m))
+            Msg.$on("order_service", m => this.setOrderList(m))
         },
         methods: {
 
             // 设置订单列表数据
-            setOrderList(order) {
+            setOrderList(m) {
+                let order = m['order']
                 let seat_types = {
                     E: '经济舱',
                     S: '超级经济舱',
@@ -106,6 +122,12 @@
                         order[i]['seat'] = seat_types[order[i]['seat_level']]
                         this.items.push(order[i])
                     }
+                }
+                let service = m['service']
+                for (var i = 0; i < this.items.length; i++) {
+                    this.items[i]['Baggage'] = service[i]['Baggage']
+                    this.items[i]['Insurance'] = service[i]['Insurance']
+                    this.items[i]['Food'] = service[i]['Food']
                 }
             },
             // 退票

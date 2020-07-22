@@ -144,6 +144,7 @@
 
 <script>
     import Msg from './msg'
+    import JSONBig from "json-bigint";
 
     export default {
         name: "GenTickets",
@@ -250,9 +251,31 @@
                             'Content-Type': 'application/json',
                         },
                         data: data,
+                        transformResponse: [
+                            function (data) {
+                                return JSONBig.parse(data)
+                            }
+                        ]
                     }
                 ).then(function (response) {
                     console.log(response);
+
+                    let order_numbers = response.data.order_numbers
+                    const url = 'api/authenticated/additionalservice'
+
+                    order_numbers.forEach(
+                        order_number => _this.$axios.get(url, {
+                            params: {
+                                token: window.sessionStorage.getItem('token'),
+                                baggage: _this.selected1,
+                                insurance: _this.selected3.join('/'),
+                                food: _this.selected2,
+                                order_number: order_number.c[0].toString() + order_number.c[1].toString(),
+                            }
+                        }).then(function (response) {
+                            console.log(response)
+                        }).catch(err => console.log(err))
+                    )
                     _this.$message({
                         message: "成功订购" + _this.num + "张票",
                         type: 'success'
@@ -262,7 +285,6 @@
                 );
 
                 // const params_
-
 
 
             }

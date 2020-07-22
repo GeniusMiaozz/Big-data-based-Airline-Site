@@ -43,8 +43,9 @@
                 let information = response.data.information;
                 let points = response.data.points;
                 let register = response.data.register;
-                Msg.$emit("order", order)
-                Msg.$emit("information", information)
+                let service = response.data.service;
+                Msg.$emit("order_service", {'order': order, 'service': service})
+                Msg.$emit("information",information)
                 Msg.$emit("points", points)
                 Msg.$emit("register", register)
             })
