@@ -44,16 +44,14 @@ fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
 
 -- 8.导入数据至会员积分明细表 points_details_table
+load data infile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_in/points_details_data_in.csv'
+into table `airline`.`points_details_table`
+fields terminated by ',' optionally enclosed by '"' escaped by '"'
+lines terminated by '\n';
 
 
 -- 9.导入数据至会员积分兑换表 points_exchange_table
 load data infile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_in/flight_exchange_data_in.csv'
 into table `airline`.`points_exchange_table`
-fields terminated by ',' optionally enclosed by '"' escaped by '"'
-lines terminated by '\n';
-
--- 10.导入数据至用户组内推荐使用的地点信息表 recommend_city_table
-load data infile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_in/recommend_city_data_in.csv'
-into table `airline`.`recommend_city_table`
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';

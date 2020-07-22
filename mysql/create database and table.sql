@@ -3,7 +3,7 @@ CREATE DATABASE `airline`;
 
 -- 1.进入airline数据库
 USE `airline`;
- 
+
 -- 2.创建会员注册信息表 member_register_table
 CREATE TABLE `airline`.`member_register_table` (
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 会员卡号
@@ -86,8 +86,8 @@ CREATE TABLE `airline`.`order_manage_table` (
   `SEAT_LEVEL` VARCHAR(1) NOT NULL,         -- 座位等级
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 会员卡号
   `REFUND_OR_CHANGE` INT UNSIGNED NOT NULL,	-- 退票、改签的标志位
-  `POINT` INT NOT NULL,						-- 订单积分
-  `PRICE` FLOAT NOT NULL,              		-- 机票原价
+  `POINT` BIGINT NOT NULL,					-- 订单积分
+  `PRICE` INT NOT NULL,              		-- 机票原价
   `DISCOUNT` FLOAT NOT NULL,                -- 购买时折扣
   PRIMARY KEY (`ORDER_NUMBER`),
   INDEX `Foreign_idx` (`FLIGHT_NO` ASC, `DATE` ASC, `MEMBER_NO` ASC) VISIBLE,
@@ -102,7 +102,7 @@ CREATE TABLE `airline`.`order_manage_table` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
--- 8.创建增值服务表 additional_ service_table
+-- 8.创建增值服务表 additional_service_table
 CREATE TABLE `airline`.`additional_service_table` (
   `ORDER_NUMBER` BIGINT UNSIGNED NOT NULL,	-- 订单号
   `BAGGAGE` TEXT NULL,						-- 行李托运信息
@@ -114,14 +114,13 @@ CREATE TABLE `airline`.`additional_service_table` (
     REFERENCES `airline`.`order_manage_table` (`ORDER_NUMBER`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-    			
+
 -- 9.创建会员积分明细表 points_details_table
 CREATE TABLE `airline`.`points_details_table` (
   `MEMBER_NO` BIGINT UNSIGNED NOT NULL,		-- 用户会员卡号
   `SEG_KM_SUM` INT UNSIGNED NOT NULL,		-- 总飞行公里数
   `EXCHANGE_COUNT` INT UNSIGNED NOT NULL,	-- 积分兑换次数
-  `EP_SUM` INT UNSIGNED NOT NULL,			-- 总精英积分
-  `ADD_POINTS_SUM` INT UNSIGNED NOT NULL,	-- 其他积分
+  `REMAIN_POINT` INT UNSIGNED NOT NULL,		-- 剩余积分
   `POINTS_SUM` INT UNSIGNED NOT NULL,		-- 总累计积分
   PRIMARY KEY (`MEMBER_NO`),
   CONSTRAINT `Foreign_5`
@@ -139,11 +138,3 @@ CREATE TABLE `airline`.`points_exchange_table` (
   `DEP_TIME` DATETIME NOT NULL,				-- 起飞时间
   `ARR_TIME` DATETIME NOT NULL,				-- 到达时间
   PRIMARY KEY (`FLIGHT_NO`));
-
--- 11.创建用户组内推荐使用的地点信息表 recommend_city_table
-CREATE TABLE `airline`.`recommend_city_table`  (
-  `ID` INT NOT NULL,						-- 用于做主键的标号
-  `CITY` VARCHAR(4) NOT NULL,				-- 城市名
-  `COUNT` BIGINT NOT NULL,					-- 用户目的地出现的次数
-  `TYPE` INT NOT NULL,						-- 聚类得到的类别
-  PRIMARY KEY (`ID`))

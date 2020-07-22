@@ -30,6 +30,26 @@
                 <div id="chart5" style="width: 600px;height:400px;"></div>
             </b-col>
         </b-row>
+        <b-row>
+            <b-col style="text-align: center">
+                <div id="chart6" style="width: 600px;height:400px;"></div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col style="text-align: center">
+                <div id="chart7" style="width: 600px;height:400px;"></div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col style="text-align: center">
+                <div id="chart8" style="width: 600px;height:400px;"></div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col style="text-align: center">
+                <div id="chart9" style="width: 600px;height:400px;"></div>
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -57,6 +77,18 @@ export default {
             var myChart5 = this.$echarts.init(
                 document.getElementById("chart5")
             );
+            var myChart6 = this.$echarts.init(
+                document.getElementById("chart6")
+            );
+            var myChart7 = this.$echarts.init(
+                document.getElementById("chart7")
+            );
+            var myChart8 = this.$echarts.init(
+                document.getElementById("chart8")
+            );
+            var myChart9 = this.$echarts.init(
+                document.getElementById("chart9")
+            );
 
             this.$axios.get(url).then(function(res) {
                 var value_info = res.data.value_info;
@@ -65,6 +97,10 @@ export default {
                 var ffp_info = res.data.ffp_info;
                 var tier_info = res.data.tier_info;
                 var flight_info = res.data.company_flight_info;
+                var city_info = res.data.city_info;
+                var flight_count_info = res.data.flight_count_info;
+                var flight_date_info = res.data.flight_date_info;
+                var order_date_info = res.data.order_date_info;
 
                 myChart0.setOption({
                     title: {
@@ -280,6 +316,142 @@ export default {
                 });
                 myChart5.on("click", function(params) {
                     alert("公司:" + params.name);
+                });
+                myChart6.setOption({
+                    title: {
+                        text: "用户工作城市分布信息图",
+                        x: "center",
+                        y: "top"
+                    },
+                    legend: {
+                        orient: "vertical",
+                        left: "left",
+                        data: []
+                    },
+                    series: [
+                        {
+                            name: "工作城市信息",
+                            type: "pie",
+                            radius: "55%",
+                            data: city_info,
+                            itemStyle: {
+                                normal: {
+                                    shadowBlur: 200,
+                                    shadowColor: "rgba(0, 0, 0, 0.5)"
+                                }
+                            }
+                        }
+                    ]
+                });
+                myChart6.on("click", function(params) {
+                    alert("城市:" + params.name);
+                });
+                myChart7.setOption({
+                    title: {
+                        text: "会员飞行次数分布信息图",
+                        x: "center",
+                        y: "top"
+                    },
+                    legend: {
+                        orient: "vertical",
+                        left: "left",
+                        data: []
+                    },
+                    series: [
+                        {
+                            name: "会员飞行次数信息",
+                            type: "pie",
+                            radius: "55%",
+                            data: flight_count_info,
+                            itemStyle: {
+                                normal: {
+                                    shadowBlur: 200,
+                                    shadowColor: "rgba(0, 0, 0, 0.5)"
+                                }
+                            }
+                        }
+                    ]
+                });
+                myChart7.on("click", function(params) {
+                    alert("飞行次数:" + params.name);
+                });
+                myChart8.setOption({
+                    title: {
+                        text: "航班飞行日期信息分布图",
+                        x: "center",
+                        y: "top"
+                    },
+                    legend: {
+                        orient: "vertical",
+                        left: "left",
+                        data: [flight_date_info.date]
+                    },
+                    xAxis: {
+                        data: flight_date_info.date
+                    },
+                    yAxis: {},
+                    dataZoom: [
+                        {
+                            type: "slider", // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                            start: 10, // 左边在 10% 的位置。
+                            end: 60 // 右边在 60% 的位置。
+                        }
+                    ],
+                    series: [
+                        {
+                            name: "航班飞行日期分布图",
+                            type: "bar",
+                            data: flight_date_info.count,
+                            itemStyle: {
+                                normal: {
+                                    shadowBlur: 200,
+                                    shadowColor: "rgba(0, 0, 0, 0.5)"
+                                }
+                            }
+                        }
+                    ]
+                });
+                myChart8.on("click", function(params) {
+                    alert("日期:" + params.name);
+                });
+                myChart9.setOption({
+                    title: {
+                        text: "历史订单日期信息分布图",
+                        x: "center",
+                        y: "top"
+                    },
+                    legend: {
+                        orient: "vertical",
+                        left: "left",
+                        data: [order_date_info.date]
+                    },
+                    xAxis: {
+                        data: order_date_info.date
+                    },
+                    yAxis: {},
+                    dataZoom: [
+                        {
+                            type: "slider", // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                            start: 10, // 左边在 10% 的位置。
+                            end: 60 // 右边在 60% 的位置。
+                        }
+                    ],
+                    series: [
+                        {
+                            name: "",
+                            type: "bar",
+                            data: order_date_info.count,
+                            itemStyle: {
+                                normal: {
+                                    shadowBlur: 200,
+                                    shadowColor: "rgba(0, 0, 0, 0.5)"
+                                }
+                            }
+                        }
+                    ]
+                });
+                myChart9.on("click", function(params) {
+                    alert("日期:" + params.name);
                 });
             });
         }

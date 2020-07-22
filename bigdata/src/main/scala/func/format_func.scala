@@ -210,7 +210,8 @@ object format_func {
     for (index <- 0 to 99) {
       order_data += order_num(index).toString + ',' + flight_data(index).split(",")(0) + ',' + //订单号,航班号
         flight_data(index).split(",")(1) + ',' + seat_level(Random.nextInt(3)) + ',' + user_num(index) + ',' + //日期,座位等级,会员卡号
-        Random.nextInt(4).toString + ',' + flight_data(index).split(",")(2) + ',' + //退票/改签标志位,积分
+        Random.nextInt(4).toString + ',' + //退票/改签标志位
+        (flight_data(index).split(",")(3 + ticket_choose(index)).toDouble * flight_data(index).split(",")(4 + ticket_choose(index)).toDouble).toInt.toString + ',' +
         flight_data(index).split(",")(3 + ticket_choose(index)) + ',' + flight_data(index).split(",")(4 + ticket_choose(index))
     }
     val order_rdd = ss.sparkContext.parallelize(order_data.toList)
@@ -240,5 +241,15 @@ object format_func {
         + get_arr_date(row(4), row(5), row(1)) + ' ' + row(5))
     flight_exchange_info.saveAsTextFile("output/flight_exchange")
     //flight_exchange_info.foreach(println)
+  }
+
+  //格式化会员积分明细表并写入
+  def format_points_data(ss: SparkSession): Unit = {
+    val points_info = ss.sparkContext.textFile("data/member_data.csv").map(_.split(","))
+      .map(row => row(0) + ',' + (row(8).toInt * (80 + Random.nextInt(500))).toString + ',' + (row(8).toInt / 10).toString + ','
+        + (row(8).toInt * (1500 + Random.nextInt(1000))).toString + ','
+        + (row(8).toInt * (1000 + Random.nextInt(500))).toString)
+    points_info.saveAsTextFile("output/points_details")
+    //points_info.foreach(println)
   }
 }
