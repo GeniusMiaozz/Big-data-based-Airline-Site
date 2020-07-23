@@ -61,28 +61,26 @@
                         </b-container>
                     </blockquote>
                 </b-card>
-                <b-card bg-variant="light" class="shadow-sm" text-variant="black" v-for="item in ticket_rec"
-                        :key="item.Id">
+                <b-card bg-variant="light" class="shadow-sm" text-variant="black">
                     <blockquote class="card-blockquote" style="margin: auto">
                         <b-container>
                             <b-row align-h="start">
                                 <b-col cols="8">
                                     <p style="font-size: 18px;font-weight: bold;">
-                                        {{item.FromCity}}
+                                        xx
                                         <i class="fa fa-fighter-jet" aria-hidden="true"></i>
-                                        {{item.ToCity}}
+                                        xx
                                     </p>
                                 </b-col>
                                 <b-col cols="4">
                                     <p class="card-font">
-                                        {{~~(item.Price*item.Discount)}}￥
-
+                                        xxx￥
                                     </p>
                                 </b-col>
                             </b-row>
                             <b-row align-h="center">
                                 <b-col>
-                                    {{item.Date}}
+                                    xxxx-xx-xx
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -103,6 +101,10 @@
                 <b-card bg-variant="primary" text-variant="white" v-for="item in site_rec" :key="item"
                         style="text-align: center">
                     <p style="margin: auto">{{item}}</p>
+                </b-card>
+                <b-card bg-variant="primary" text-variant="white"
+                        style="text-align: center">
+                    <p style="margin: auto">xxx</p>
                 </b-card>
             </b-card-group>
         </b-row>
