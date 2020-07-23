@@ -51,7 +51,7 @@
                                 <b-row>
                                     <b-col sm="4" offset-sm="8" class="text-sm-center">
                                         <b-button-group v-if="row.item.Refund_Or_Change===0">
-                                            <b-button variant="dark">设置已起飞</b-button>
+                                            <b-button @click="hasFlight(row.item.Order_No)" variant="dark">设置已起飞</b-button>
                                             <b-button @click="refund(row.item.Order_No)" variant="primary">退款
                                             </b-button>
                                         </b-button-group>
@@ -107,6 +107,7 @@
 
             // 设置订单列表数据
             setOrderList(m) {
+                console.log(m)
                 let order = m['order']
                 let seat_types = {
                     E: '经济舱',
@@ -139,7 +140,7 @@
                     url, {
                         params: {
                             token: window.sessionStorage.getItem('token'),
-                            order_number: order_number.c[0].toString() + order_number.c[1].toString(),
+                            order_number: order_number.toString(),
                         }
                     }
                 ).then(
@@ -147,6 +148,26 @@
                         console.log(response)
                         _this.$message({
                             message: "退票成功",
+                            type: 'success'
+                        });
+                    }
+                ).catch(error => console.log(error))
+            },
+            hasFlight(order_number){
+                const url="/api/verify"
+                const _this=this
+                this.$axios.get(
+                    url,{
+                        params:{
+                            token: window.sessionStorage.getItem('token'),
+                            order_number: order_number.toString(),
+                        }
+                    }
+                ).then(
+                    function (response) {
+                        console.log(response)
+                        _this.$message({
+                            message: "使用成功",
                             type: 'success'
                         });
                     }

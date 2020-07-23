@@ -194,6 +194,7 @@
             onSlideStart() {
                 this.sliding = true
             },
+
             onSlideEnd() {
                 this.sliding = false
             },
@@ -233,13 +234,10 @@
                 }).then(function (response) {
                     obj.ticket_rec = response.data.ticket_rec;
                 })
-
-
             }
         },
         mounted() {
             this.loadCheepFlights();
-
         }
     }
 

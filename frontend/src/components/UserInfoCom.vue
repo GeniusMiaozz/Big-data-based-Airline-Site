@@ -108,7 +108,7 @@
                                     </b-col>
                                     <b-col cols="6">
                                         <b-form-input
-                                                id="input-1"
+                                                id="input-2"
                                                 v-model="form.Work_Province"
                                                 required
                                                 placeholder="输入工作省份"
@@ -131,7 +131,7 @@
                                     </b-col>
                                     <b-col cols="6">
                                         <b-form-input
-                                                id="input-1"
+                                                id="input-3"
                                                 v-model="form.Work_Country"
                                                 required
                                                 placeholder="输入工作国家"

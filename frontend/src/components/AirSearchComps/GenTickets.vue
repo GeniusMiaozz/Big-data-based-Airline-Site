@@ -270,7 +270,7 @@
                                 baggage: _this.selected1,
                                 insurance: _this.selected3.join('/'),
                                 food: _this.selected2,
-                                order_number: order_number.c[0].toString() + order_number.c[1].toString(),
+                                order_number: order_number.toString(),
                             }
                         }).then(function (response) {
                             console.log(response)
