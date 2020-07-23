@@ -34,26 +34,55 @@
         </b-row>
         <b-row class="recommend">
             <b-card-group columns>
-                <b-card bg-variant="light" class="shadow-sm" text-variant="black" v-for="item in cheapFlights" :key="item.id">
+                <b-card bg-variant="light" class="shadow-sm" text-variant="black" v-for="item in ticket_rec"
+                        :key="item.Id">
                     <blockquote class="card-blockquote" style="margin: auto">
                         <b-container>
                             <b-row align-h="start">
                                 <b-col cols="8">
                                     <p style="font-size: 18px;font-weight: bold;">
-                                        {{item.from}}
-                                        <b-icon-arrow-right/>
-                                        {{item.to}}
+                                        {{item.FromCity}}
+                                        <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                                        {{item.ToCity}}
                                     </p>
                                 </b-col>
                                 <b-col cols="4">
                                     <p class="card-font">
-                                        {{item.price}}￥
+                                        {{~~(item.Price*item.Discount)}}￥
+
                                     </p>
                                 </b-col>
                             </b-row>
                             <b-row align-h="center">
                                 <b-col>
-                                    {{item.date_x}}
+                                    {{item.Date}}
+                                </b-col>
+                            </b-row>
+                        </b-container>
+                    </blockquote>
+                </b-card>
+                <b-card bg-variant="light" class="shadow-sm" text-variant="black" v-for="item in ticket_rec"
+                        :key="item.Id">
+                    <blockquote class="card-blockquote" style="margin: auto">
+                        <b-container>
+                            <b-row align-h="start">
+                                <b-col cols="8">
+                                    <p style="font-size: 18px;font-weight: bold;">
+                                        {{item.FromCity}}
+                                        <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                                        {{item.ToCity}}
+                                    </p>
+                                </b-col>
+                                <b-col cols="4">
+                                    <p class="card-font">
+                                        {{~~(item.Price*item.Discount)}}￥
+
+                                    </p>
+                                </b-col>
+                            </b-row>
+                            <b-row align-h="center">
+                                <b-col>
+                                    {{item.Date}}
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -62,11 +91,20 @@
             </b-card-group>
         </b-row>
 
+
         <!--游记-->
         <b-row class="recommend">
             <h2>
                 <b-badge variant="primary" style="font-weight: normal">景点推荐</b-badge>
             </h2>
+        </b-row>
+        <b-row class="recommend">
+            <b-card-group columns>
+                <b-card bg-variant="primary" text-variant="white" v-for="item in site_rec" :key="item"
+                        style="text-align: center">
+                    <p style="margin: auto">{{item}}</p>
+                </b-card>
+            </b-card-group>
         </b-row>
         <b-row class="recommend">
             <div>
@@ -93,7 +131,8 @@
                         </blockquote>
                     </b-card>
 
-                    <b-card title="Title" class="shadow-sm" img-src="https://placekitten.com/500/350" img-alt="Image" img-top>
+                    <b-card title="Title" class="shadow-sm" img-src="https://placekitten.com/500/350" img-alt="Image"
+                            img-top>
                         <b-card-text>
                             This card has supporting text below as a natural lead-in to additional content.
                         </b-card-text>
@@ -117,7 +156,8 @@
                         <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
                     </b-card>
 
-                    <b-card class="shadow-sm" img-src="https://picsum.photos/400/400/?image=41" img-alt="Image" overlay></b-card>
+                    <b-card class="shadow-sm" img-src="https://picsum.photos/400/400/?image=41" img-alt="Image"
+                            overlay></b-card>
 
                     <b-card class="shadow-sm" img-src="https://picsum.photos/400/200/?image=41" img-alt="Image" img-top>
                         <b-card-text>
@@ -143,34 +183,57 @@
                 slide: 0,
                 sliding: null,
                 slideList: [],
-                cheapFlights: []
+                cheapFlights: [],
+                site_rec: [],
+                ticket_rec: [],
             }
         },
         methods: {
-            onSlideStart(slide) {
+            onSlideStart() {
                 this.sliding = true
             },
-            onSlideEnd(slide) {
+            onSlideEnd() {
                 this.sliding = false
             },
 
             loadCheepFlights() {
                 const obj = this;
-                const url1 = "json\\cheapFlights.json";
                 const url2 = "json\\slidelist.json";
-                this.$axios.get(url1).then(
-                    function (res) {
-                        obj.cheapFlights = res.data;
-                    }
-                )
                 this.$axios.get(url2).then(
                     function (res) {
                         obj.slideList = res.data;
                     }
                 )
 
-            }
+                // 地点推荐
+                const url_1 = "/api/authenticated/siterecommend"  //地点推荐
+                this.$axios.get(url_1,
+                    {
+                        params: {
+                            token: window.sessionStorage.getItem('token')
+                        }
+                    }
+                ).then(function (response) {
+                    // console.log(response.data)
+                    let site_rec = response.data.site_rec;
+                    let s1 = new Set()
+                    site_rec.forEach(item => s1.add(item.ATTRACTION))
+                    obj.site_rec = s1
+                    obj.site_rec.forEach(item => console.log(item))
+                })
 
+                // 机票推荐
+                const url_2 = "/api/authenticated/ticketrecommend"
+                this.$axios.get(url_2, {
+                    params: {
+                        token: window.sessionStorage.getItem('token')
+                    }
+                }).then(function (response) {
+                    obj.ticket_rec = response.data.ticket_rec;
+                })
+
+
+            }
         },
         mounted() {
             this.loadCheepFlights();
