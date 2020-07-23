@@ -201,7 +201,11 @@
             this.loadCheepFlights();
             let obj = this;
             let url = "json\\rec.json"
-            this.$axios.get(url).then(function (response) {
+            this.$axios.get(url,{
+                params:{
+                    token:window.sessionStorage.getItem("token")
+                }
+            }).then(function (response) {
                 console.log(response)
                 obj.online_rec = response.data.guide
             }).catch(error => console.log(error))
