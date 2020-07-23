@@ -173,18 +173,21 @@ object format_func {
 
   //格式化订单信息并写入
   def format_order_data(ss: SparkSession): Unit = {
-    //随机生产100个用户
-    val user_num = ArrayBuffer.empty[Int]
-    while (user_num.size < 100) {
-      val uid = Random.nextInt(200) + 1
-      if (!user_num.contains(uid)) {
-        user_num += uid
+    //获取所有用户及各个用户的飞行次数
+    val member_info = ss.sparkContext.textFile("data/member_data.csv").map(_.split(","))
+      .map(row => row(0) + ',' + row(8)).map(_.split(","))
+
+    //根据每个用户的飞行次数,保存每个订单的用户编号。每个用户的订单数为飞行次数
+    val user_num = ss.sparkContext.collectionAccumulator[Int]("My Accumulator")
+    for (user <- member_info) {
+      for (index <- 1 to user(1).toInt) {
+        user_num.add(user(0).toInt)
       }
     }
 
-    //随机生产100个订单号
+    //随机生产若干个订单号
     val order_num = ArrayBuffer.empty[Int]
-    while (order_num.size < 100) {
+    while (order_num.size < user_num.value.size) {
       val fid = Random.nextInt(899999) + 100000
       if (!order_num.contains(fid)) {
         order_num += fid
@@ -193,23 +196,24 @@ object format_func {
 
     //随机生成低价票、中价票、高价票的选择
     val ticket_choose = ArrayBuffer.empty[Int]
-    while (ticket_choose.size < 100) {
-      val tid = Random.nextInt(3)
+    while (ticket_choose.size < user_num.value.size) {
+      val tid = Random.nextInt(5)
       if ((tid == 0) || (tid == 2) || (tid == 4))
         ticket_choose += tid
     }
 
+    //保存航班相关信息
     val flight_data = ss.sparkContext.textFile("data/order_use_data.csv").map(_.split(","))
       .map(row => row(1) + ',' + row(2) + ',' //航班号,日期
         + get_token(row(9).split(' ')(1), row(10).split(' ')(1), 100, 1) + ',' //积分
         + row(11) + ',' + row(12) + ',' + row(14) + ',' + row(15) + ',' + row(17) + ',' + row(18)) //三种票价
-      .take(100)
+      .take(user_num.value.size)
 
     val seat_level = Map(0 -> 'E', 1 -> 'S', 2 -> 'F')
     val order_data = ArrayBuffer[String]()
-    for (index <- 0 to 99) {
+    for (index <- 0 to user_num.value.size - 1) {
       order_data += order_num(index).toString + ',' + flight_data(index).split(",")(0) + ',' + //订单号,航班号
-        flight_data(index).split(",")(1) + ',' + seat_level(Random.nextInt(3)) + ',' + user_num(index) + ',' + //日期,座位等级,会员卡号
+        flight_data(index).split(",")(1) + ',' + seat_level(Random.nextInt(3)) + ',' + user_num.value.toArray()(index) + ',' + //日期,座位等级,会员卡号
         Random.nextInt(4).toString + ',' + //退票/改签标志位
         (flight_data(index).split(",")(3 + ticket_choose(index)).toDouble * flight_data(index).split(",")(4 + ticket_choose(index)).toDouble).toInt.toString + ',' +
         flight_data(index).split(",")(3 + ticket_choose(index)) + ',' + flight_data(index).split(",")(4 + ticket_choose(index))

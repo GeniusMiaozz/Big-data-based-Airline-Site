@@ -51,9 +51,3 @@ select * from `airline`.`points_exchange_table`
 into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/flight_exchange_data_out.csv'
 fields terminated by ',' optionally enclosed by '"' escaped by '"'
 lines terminated by '\n';
-
--- 9.导出recommend_city_table表中的数据
-select * from `airline`.`recommend_city_table`
-into outfile 'C:/Users/miaoz/Desktop/NEU Soft Big Data/Big-data-based-Airline-Site/mysql/data_out/recommend_city_data_in.csv'
-fields terminated by ',' optionally enclosed by '"' escaped by '"'
-lines terminated by '\n';

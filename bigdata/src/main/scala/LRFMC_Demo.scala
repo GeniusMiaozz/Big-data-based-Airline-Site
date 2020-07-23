@@ -40,19 +40,15 @@ object LRFMC_Demo {
 
     //统计多个聚类中心的平均值
     val i = analysis_func.get_avg_vector(model.clusterCenters, typenum)
-    //    for (index <- model.clusterCenters) {
-    //      println(index.toString)
-    //    }
-    //    println("avg:" + i.toString)
 
+    //对不同类别判断其价值信息
     val value_type = analysis_func.judge_value_type(model.clusterCenters, i)
-    //    value_type.foreach(println)
 
     //对每个用户分析其类别
     val predicts = air_vector.map(item => (item._1, value_type(model.predict(item._2))))
     predicts.foreach(println)
 
     //将信息写回数据库
-    //write_info_to_mysql(ss, predicts)
+    analysis_func.write_info_to_mysql(ss, predicts)
   }
 }

@@ -1,6 +1,6 @@
 -- 0.创建airline数据库
 CREATE DATABASE `airline`;
-
+ 
 -- 1.进入airline数据库
 USE `airline`;
 
