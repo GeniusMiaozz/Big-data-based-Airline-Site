@@ -90,7 +90,6 @@
         </b-row>
 
 
-        <!--游记-->
         <b-row class="recommend">
             <h2>
                 <b-badge variant="primary" style="font-weight: normal">景点推荐</b-badge>
@@ -109,69 +108,30 @@
             </b-card-group>
         </b-row>
         <b-row class="recommend">
-            <div>
-                <b-card-group columns>
-                    <b-card
-                            class="shadow-sm"
-                            title="Card title that wraps to a new line"
-                            img-src="https://placekitten.com/g/400/450"
-                            img-alt="Image"
-                            img-top
-                    >
-                        <b-card-text>
-                            This is a wider card with supporting text below as a natural lead-in to additional content.
-                            This content is a little bit longer.
-                        </b-card-text>
-                    </b-card>
-
-                    <b-card header="Quote" class="shadow-sm">
-                        <blockquote class="blockquote mb-0">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <footer class="blockquote-footer">
-                                Someone famous in <cite title="Source Title">Source Title</cite>
-                            </footer>
-                        </blockquote>
-                    </b-card>
-
-                    <b-card title="Title" class="shadow-sm" img-src="https://placekitten.com/500/350" img-alt="Image"
+            <b-card-group columns>
+                <div v-for="(item,key) in online_rec" :key="key">
+                    <b-card class="shadow-sm"
+                            :title=key
+                            :img-src=item.picture
                             img-top>
                         <b-card-text>
-                            This card has supporting text below as a natural lead-in to additional content.
+                            {{item.introduction}}
                         </b-card-text>
-                        <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
                     </b-card>
-
-                    <b-card bg-variant="primary" text-variant="white" class="shadow-sm">
-                        <blockquote class="card-blockquote">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <footer>
-                                <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-                            </footer>
+                    <b-card header="气候">
+                        <blockquote class="blockquote mb-0">
+                            <div v-for="value in item.climate">
+                                {{value}}
+                            </div>
                         </blockquote>
                     </b-card>
-
-                    <b-card class="shadow-sm">
-                        <b-card-title>Title</b-card-title>
-                        <b-card-text>
-                            This card has supporting text below as a natural lead-in to additional content.
-                        </b-card-text>
-                        <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
+                    <b-card header="旅行信息">
+                        <blockquote class="blockquote mb-0">
+                            <div v-for="value in item.travel">{{value}}</div>
+                        </blockquote>
                     </b-card>
-
-                    <b-card class="shadow-sm" img-src="https://picsum.photos/400/400/?image=41" img-alt="Image"
-                            overlay></b-card>
-
-                    <b-card class="shadow-sm" img-src="https://picsum.photos/400/200/?image=41" img-alt="Image" img-top>
-                        <b-card-text>
-                            This is a wider card with supporting text below as a natural lead-in to additional content.
-                            This card has even longer content than the first.
-                        </b-card-text>
-                        <template v-slot:footer>
-                            <small class="text-muted">Footer Text</small>
-                        </template>
-                    </b-card>
-                </b-card-group>
-            </div>
+                </div>
+            </b-card-group>
         </b-row>
     </b-container>
 
@@ -188,6 +148,7 @@
                 cheapFlights: [],
                 site_rec: [],
                 ticket_rec: [],
+                online_rec: {},
             }
         },
         methods: {
@@ -238,6 +199,12 @@
         },
         mounted() {
             this.loadCheepFlights();
+            let obj = this;
+            let url = "json\\rec.json"
+            this.$axios.get(url).then(function (response) {
+                console.log(response)
+                obj.online_rec = response.data.guide
+            }).catch(error => console.log(error))
         }
     }
 

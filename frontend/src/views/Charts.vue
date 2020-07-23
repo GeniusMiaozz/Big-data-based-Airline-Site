@@ -1,49 +1,51 @@
 <template>
     <!--    <b-container style="margin-top: 2em">-->
-    <div class="col-10 el-col-offset-2">
-        <b-row>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart0"
-                     style="width: 600px;height:400px;"></div>
-            </b-col>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart1" style="width: 600px;height:400px;"></div>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart2" style="width: auto;height:400px;"></div>
-            </b-col>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart3" style="width: 600px;height:400px;"></div>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart4" style="width: 600px;height:400px;"></div>
-            </b-col>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart5" style="width: 600px;height:400px;"></div>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart6" style="width: 600px;height:400px;"></div>
-            </b-col>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart7" style="width: 600px;height:400px;"></div>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart8" style="width: 600px;height:400px;"></div>
-            </b-col>
-            <b-col style="text-align: center;margin: 1em" class="shadow-lg">
-                <div id="chart9" style="width: 600px;height:400px;"></div>
-            </b-col>
-        </b-row>
+    <div>
+        <b-container style="margin-top: 2em">
+            <b-card-group>
+                <b-card bg-variant="light" header="用户价值分类信息图" class="text-center">
+                    <div id="chart0" style="width: auto;height:350px;"></div>
+                </b-card>
+                <b-card bg-variant="light" header="用户性别分布信息图" class="text-center">
+                    <div id="chart1" style="width: auto;height:350px;"></div>
+                </b-card>
+            </b-card-group>
+            <b-card-group>
+                <b-card bg-variant="light" header="用户年龄分布信息图" class="text-center">
+                    <div id="chart2" style="width: auto;height:350px;"></div>
+                </b-card>
+                <b-card bg-variant="light" header="会员入会年份分布图" class="text-center">
+                    <div id="chart3" style="width: auto;height:350px;"></div>
+                </b-card>
+            </b-card-group>
+            <b-card-group>
+                <b-card bg-variant="light" header="会员等级信息分布" class="text-center">
+                    <div id="chart4" style="width: auto;height:350px;"></div>
+                </b-card>
+                <b-card bg-variant="light" header="公司航班数量信息分布图" class="text-center">
+                    <div id="chart5" style="width: auto;height:350px;"></div>
+                </b-card>
+            </b-card-group>
+            <b-card-group>
+                <b-card bg-variant="light" header="用户工作城市分布信息图" class="text-center">
+                    <div id="chart6" style="width: auto;height:350px;"></div>
+                </b-card>
+                <b-card bg-variant="light" header="会员飞行次数分布信息图" class="text-center">
+                    <div id="chart7" style="width: auto;height:350px;"></div>
+                </b-card>
+            </b-card-group>
+
+            <b-card-group>
+                <b-card bg-variant="light" header="航班飞行日期信息分布图" class="text-center">
+                    <div id="chart8" style="width: auto;height:350px;"></div>
+                </b-card>
+                <b-card bg-variant="light" header="历史订单日期信息分布图" class="text-center">
+                    <div id="chart9" style="width: auto;height:350px;"></div>
+                </b-card>
+            </b-card-group>
+        </b-container>
     </div>
-    <!--    </b-container>-->
+
 </template>
 
 <script>
@@ -53,34 +55,34 @@
             drawChart() {
                 const url = "json\\test_echarts_data.json";
                 var myChart0 = this.$echarts.init(
-                    document.getElementById("chart0")
+                    document.getElementById("chart0"), '', {devicePixelRatio: 2}
                 );
                 var myChart1 = this.$echarts.init(
-                    document.getElementById("chart1")
+                    document.getElementById("chart1"), '', {devicePixelRatio: 2}
                 );
                 var myChart2 = this.$echarts.init(
-                    document.getElementById("chart2")
+                    document.getElementById("chart2"), '', {devicePixelRatio: 2}
                 );
                 var myChart3 = this.$echarts.init(
-                    document.getElementById("chart3")
+                    document.getElementById("chart3"), '', {devicePixelRatio: 2}
                 );
                 var myChart4 = this.$echarts.init(
-                    document.getElementById("chart4")
+                    document.getElementById("chart4"), '', {devicePixelRatio: 2}
                 );
                 var myChart5 = this.$echarts.init(
-                    document.getElementById("chart5")
+                    document.getElementById("chart5"), '', {devicePixelRatio: 2}
                 );
                 var myChart6 = this.$echarts.init(
-                    document.getElementById("chart6")
+                    document.getElementById("chart6"), '', {devicePixelRatio: 2}
                 );
                 var myChart7 = this.$echarts.init(
-                    document.getElementById("chart7")
+                    document.getElementById("chart7"), '', {devicePixelRatio: 2}
                 );
                 var myChart8 = this.$echarts.init(
-                    document.getElementById("chart8")
+                    document.getElementById("chart8"), '', {devicePixelRatio: 2}
                 );
                 var myChart9 = this.$echarts.init(
-                    document.getElementById("chart9")
+                    document.getElementById("chart9"), '', {devicePixelRatio: 2}
                 );
 
                 this.$axios.get(url).then(function (res) {
@@ -97,7 +99,7 @@
 
                     myChart0.setOption({
                         title: {
-                            text: "用户价值分类信息图",
+                            // text: "用户价值分类信息图",
                             x: "center",
                             y: "top"
                         },
@@ -110,7 +112,7 @@
                                 "重要发展客户",
                                 "重要挽留客户",
                                 "重要保持客户"
-                            ]
+                            ],
                         },
                         series: [
                             {
@@ -118,12 +120,6 @@
                                 type: "pie",
                                 radius: "55%",
                                 data: value_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -132,7 +128,7 @@
                     });
                     myChart1.setOption({
                         title: {
-                            text: "用户性别分布信息图",
+                            // text: "用户性别分布信息图",
                             x: "center",
                             y: "top"
                         },
@@ -147,12 +143,6 @@
                                 type: "pie",
                                 radius: "55%",
                                 data: sex_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -161,7 +151,7 @@
                     });
                     myChart2.setOption({
                         title: {
-                            text: "用户年龄分布信息图",
+                            // text: "用户年龄分布信息图",
                             x: "center",
                             y: "top"
                         },
@@ -184,12 +174,6 @@
                                 type: "pie",
                                 radius: "55%",
                                 data: age_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -198,7 +182,7 @@
                     });
                     myChart3.setOption({
                         title: {
-                            text: "会员入会年份分布图",
+                            // text: "会员入会年份分布图",
                             x: "center",
                             y: "top"
                         },
@@ -223,12 +207,6 @@
                                 name: "年份",
                                 type: "bar",
                                 data: ffp_info.count,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -237,7 +215,7 @@
                     });
                     myChart4.setOption({
                         title: {
-                            text: "会员等级信息分布图",
+                            // text: "会员等级信息分布图",
                             x: "center",
                             y: "top"
                         },
@@ -259,12 +237,6 @@
                                 name: "等级",
                                 type: "pie",
                                 data: tier_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -273,7 +245,7 @@
                     });
                     myChart5.setOption({
                         title: {
-                            text: "公司航班数量信息分布图",
+                            // text: "公司航班数量信息分布图",
                             x: "center",
                             y: "top"
                         },
@@ -298,12 +270,6 @@
                                 name: "等级",
                                 type: "bar",
                                 data: flight_info.flight_num,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -312,7 +278,7 @@
                     });
                     myChart6.setOption({
                         title: {
-                            text: "用户工作城市分布信息图",
+                            // text: "用户工作城市分布信息图",
                             x: "center",
                             y: "top"
                         },
@@ -327,12 +293,6 @@
                                 type: "pie",
                                 radius: "55%",
                                 data: city_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -341,7 +301,7 @@
                     });
                     myChart7.setOption({
                         title: {
-                            text: "会员飞行次数分布信息图",
+                            // text: "会员飞行次数分布信息图",
                             x: "center",
                             y: "top"
                         },
@@ -356,12 +316,6 @@
                                 type: "pie",
                                 radius: "55%",
                                 data: flight_count_info,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -370,7 +324,7 @@
                     });
                     myChart8.setOption({
                         title: {
-                            text: "航班飞行日期信息分布图",
+                            // text: "航班飞行日期信息分布图",
                             x: "center",
                             y: "top"
                         },
@@ -395,12 +349,6 @@
                                 name: "航班飞行日期分布图",
                                 type: "bar",
                                 data: flight_date_info.count,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
@@ -409,7 +357,7 @@
                     });
                     myChart9.setOption({
                         title: {
-                            text: "历史订单日期信息分布图",
+                            // text: "历史订单日期信息分布图",
                             x: "center",
                             y: "top"
                         },
@@ -434,12 +382,6 @@
                                 name: "",
                                 type: "bar",
                                 data: order_date_info.count,
-                                itemStyle: {
-                                    normal: {
-                                        shadowBlur: 200,
-                                        shadowColor: "rgba(0, 0, 0, 0.5)"
-                                    }
-                                }
                             }
                         ]
                     });
