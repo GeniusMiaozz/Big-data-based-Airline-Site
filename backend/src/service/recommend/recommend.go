@@ -22,16 +22,26 @@ func SiteRecommend(id string)(int,[]data.Site,error){
 	var sl []data.Site
 	for rows.Next() {
 		var s data.Site
-		rows.Scan(&s.Id,&s.UserId,&s.ATTRACTION,&s.CLICK_COUNT,&s.LOCATION,&s.AVG_PRICE)
+/*
+		type Site struct{
+			Id             int64
+			UserId		   string
+			ATTRACTION     string
+			HOT_COUNT    int64
+			LOCATION       string
+			PRICE      int64
+		}*/
+
+		rows.Scan(&s.Id,&s.UserId,&s.ATTRACTION,&s.HOT_COUNT,&s.LOCATION,&s.PRICE)
 		//fmt.Println(s.Id)
 		//fmt.Println(s.UserId)
-		//fmt.Println(s.ATTRACTION)
+		fmt.Println(s.ATTRACTION)
 		//fmt.Println(s.CLICK_COUNT)
 		//fmt.Println(s.LOCATION)
 		//fmt.Println(s.AVG_PRICE)
 		sl = append(sl, s)
 	}
-	return 0,sl,err
+	return 0,sl,nil
 }
 
 //推荐相关的酒店住宿,0-正常，1-内部错误
@@ -48,7 +58,7 @@ func RestRecommend(id string)(int,[]data.Hotel,error){
 	var sl []data.Hotel
 	for rows.Next() {
 		var s data.Hotel
-		rows.Scan(&s.Id,&s.HOTEL,&s.LOCATION,&s.CLASS,&s.AVG_PRICE,&s.COUNTER,&s.Userid)
+		rows.Scan(&s.Id,&s.HOTEL,&s.LOCATION,&s.AVG_PRICE,&s.COUNTER,&s.Userid)
 		//fmt.Println(s.HOTEL)
 		//fmt.Println(s.LOCATION)
 		//fmt.Println(s.CLASS)
@@ -57,7 +67,7 @@ func RestRecommend(id string)(int,[]data.Hotel,error){
 		//fmt.Println(s.Userid)
 		sl = append(sl, s)
 	}
-	return 0,sl,err
+	return 0,sl,nil
 }
 
 //低价机票推荐,0-正常，1-内部错误
@@ -68,19 +78,39 @@ func TicketRecommend(id string)(int,[]data.Ticket,error){
 	//输出：查询到的低价机票的集合
 	db, _ := r_db.Connect()
 	fmt.Println(id)
-	rows, err:=db.Query([]string{"*"}, []string{"flight_recommendation_table"},"userid="+id)
-	defer rows.Close()
+	rows, err:=db.Query([]string{"*"}, []string{"flight_recommendation_table"},"user_id="+id)
+	//defer rows.Close()
 	if err != nil {
 		return 1,nil, err
 	}
 	var sl []data.Ticket
 	for rows.Next() {
 		var s data.Ticket
-		rows.Scan(&s.Id,&s.Userid,&s.FLIGHT_NO,&s.Price,&s.Date,&s.DEP_CT,&s.ARR_CT,&s.TYPE)
-		fmt.Println(s.FLIGHT_NO)
+/*
+		type Ticket struct{
+			Id               int64
+			KmeansType       string
+			Userid           string
+			userWorkprovince string
+			userRecProvince  string
+			flightCompany    string
+			FlightNo         string
+			fromCity         string
+			fromProvince     string
+			toCity           string
+			toProvince       string
+			date             string
+			price            string
+			discount         string
+		}
+		*/
+		rows.Scan(&s.Id,&s.KmeansType,&s.Userid,&s.UserWorkprovince,
+			&s.UserRecProvince,&s.FlightCompany,&s.FlightNo,&s.FromCity,
+			&s.FromProvince,&s.ToCity,&s.ToProvince,&s.Date,&s.Price,&s.Discount)
+		fmt.Println(s.FlightNo)
 		sl = append(sl, s)
 	}
-	return 0,sl,err
+	return 0,sl,nil
 
 }
 
@@ -93,12 +123,12 @@ func TravelRecommend()(int,[]data.Travel,error){
 	//fmt.Println(mm)
 	db, _ := r_db.Connect()
 	rows, err:=db.Query([]string{"*"},
-						[]string{"travel_recommendation_table"},
-						"MONTH="+strconv.FormatInt(mm,10)+" or "+
-		                "MONTH="+strconv.FormatInt(mm+1,10)+" or "+
-		                "MONTH="+strconv.FormatInt(mm+2,10)+" or "+
-						"MONTH="+strconv.FormatInt(mm+3,10)+" or "+
-						"MONTH="+strconv.FormatInt(mm+4,10))
+		[]string{"travel_recommendation_table"},
+		"MONTH="+strconv.FormatInt(mm,10)+" or "+
+			"MONTH="+strconv.FormatInt(mm+1,10)+" or "+
+			"MONTH="+strconv.FormatInt(mm+2,10)+" or "+
+			"MONTH="+strconv.FormatInt(mm+3,10)+" or "+
+			"MONTH="+strconv.FormatInt(mm+4,10))
 	if err != nil {
 		return 1,nil, err
 	}
@@ -110,9 +140,8 @@ func TravelRecommend()(int,[]data.Travel,error){
 		fmt.Println(s.MENU)
 		sl = append(sl, s)
 	}
-	return 0, nil, nil
+	return 0, sl, nil
 }
-
 //积分商品的推荐，可能不做了
 func goodsRecommend()(){//根据用户积分情况，自动匹配最相关的积分兑换产品，按先后排序
 	//输入：用户id

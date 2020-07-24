@@ -2,7 +2,7 @@
 import snownlp
 from snownlp import SnowNLP
 yuyi = []
-f = open('lypl.txt')
+f = open('lypl.csv')
 data_list = f.readlines()
 for data in data_list:
     s = SnowNLP(data)
@@ -12,308 +12,313 @@ for data in data_list:
     print(data)
     yuyi.append(a)
 
-c = []
-'''
+clist1=[]
+clist2=[]
+clist3=[]
+clist4=[]
+clist5=[]
+clist6=[]
 a1 = 0
 for i in range(30):
     a1 += yuyi[i]
 b1 = a1/30
-c.append(b1)
+clist1.append(b1)
 a2 = 0
 for i in range(30,60):
     a2 += yuyi[i]
 b2 = a2/30
-c.append(b2)
+clist1.append(b2)
 a3 = 0
 for i in range(60,90):
     a3 += yuyi[i]
 b3 = a3/30
-c.append(b3)
+clist1.append(b3)
 d3 = 0
 for i in range(90,120):
     d3 += yuyi[i]
 c3 = d3/30
-c.append(c3)
+clist1.append(c3)
 a4 = 0
 for i in range(120,150):
     a4 += yuyi[i]
 b4 = a4/30
-c.append(b4)
+clist1.append(b4)
 d4 = 0
 for i in range(150,180):
     d4 += yuyi[i]
 c4 = d4/30
-c.append(c4)
+clist1.append(c4)
 a5 = 0
 for i in range(180,210):
     a5 += yuyi[i]
 b5 = a5/30
-c.append(b5)
+clist1.append(b5)
 a6 = 0
 for i in range(210,240):
     a6 += yuyi[i]
 b6 = a6/30
-c.append(b6)
+clist1.append(b6)
 a7 = 0
 for i in range(240,270):
     a7 += yuyi[i]
 b7 = a7/30
-c.append(b7)
+clist1.append(b7)
 d7 = 0
 for i in range(270,300):
     d7+=yuyi[i]
 c7 = d7/30
-c.append(c7)
+clist1.append(c7)
 a8 = 0
 for i in range(300,330):
     a8 += yuyi[i]
 b8 = a8/30
-c.append(b8)
+clist2.append(b8)
 a9 = 0
 for i in range(330,360):
     a9 += yuyi[i]
 b9 = a9/30
-c.append(b9)
+clist2.append(b9)
 a10 = 0
 for i in range(360,390):
     a10 += yuyi[i]
 b10 = a10/30
-c.append(b10)
+clist2.append(b10)
 a11 = 0
 for i in range(390,420):
     a11 += yuyi[i]
 b11 = a11/30
-c.append(b11)
+clist2.append(b11)
 a12 = 0
 for i in range(420,450):
     a12 += yuyi[i]
 b12 = a12/30
-c.append(b12)
+clist2.append(b12)
 a13 = 0
 for i in range(450,480):
     a13 += yuyi[i]
 b13 = a13/30
-c.append(b13)
+clist2.append(b13)
 a14 = 0
 for i in range(480,510):
     a14 += yuyi[i]
 b14 = a14/30
-c.append(b14)
+clist2.append(b14)
 a15 = 0
 for i in range(510,540):
     a15 += yuyi[i]
 b15 = a15/30
-c.append(b15)
+clist2.append(b15)
 a16 = 0
 for i in range(540,570):
     a16 += yuyi[i]
 b16 = a16/30
-c.append(b16)
+clist2.append(b16)
 a17 = 0
 for i in range(570,600):
     a17 += yuyi[i]
 b17 = a17/30
-c.append(b17)
+clist2.append(b17)
 a18 = 0
 for i in range(600,630):
     a18 += yuyi[i]
 b18 = a18/30
-c.append(b18)
+clist3.append(b18)
 a19 = 0
 for i in range(630,660):
     a19 += yuyi[i]
 b19 = a19/30
-c.append(b19)
+clist3.append(b19)
 a20 = 0
 for i in range(660,690):
     a20 += yuyi[i]
 b20 = a20/30
-c.append(b20)
+clist3.append(b20)
 a21 = 0
 for i in range(690,720):
     a21 += yuyi[i]
 b21 = a21/30
-c.append(b21)
+clist3.append(b21)
 a22 = 0
 for i in range(720,750):
     a22 += yuyi[i]
 b22 = a22/30
-c.append(b22)
+clist3.append(b22)
 a23 = 0
 for i in range(750,780):
     a23 += yuyi[i]
 b23 = a23/30
-c.append(b23)
+clist3.append(b23)
 a24 = 0
 for i in range(780,810):
     a24 += yuyi[i]
 b24 = a24/30
-c.append(b24)
+clist3.append(b24)
 a25 = 0
 for i in range(810,840):
     a25 += yuyi[i]
 b25 = a25/30
-c.append(b25)
+clist3.append(b25)
 a26 = 0
 for i in range(840,870):
     a26 += yuyi[i]
 b26 = a26/30
-c.append(b26)
+clist3.append(b26)
 a27 = 0
 for i in range(870,900):
     a27 += yuyi[i]
 b27 = a27/30
-c.append(b27)
+clist3.append(b27)
 a28 = 0
 for i in range(900,930):
     a28 += yuyi[i]
 b28 = a28/30
-c.append(b28)
+clist4.append(b28)
 a29 = 0
 for i in range(930,960):
     a29 += yuyi[i]
 b29 = a29/30
-c.append(b29)
+clist4.append(b29)
 a30 = 0
 for i in range(960,990):
     a30 += yuyi[i]
 b30 = a30/30
-c.append(b30)
+clist4.append(b30)
 a31 = 0
 for i in range(990,1020):
     a31 += yuyi[i]
 b31 = a31/30
-c.append(b31)
+clist4.append(b31)
 a32 = 0
 for i in range(1020,1050):
     a32 += yuyi[i]
 b32 = a32/30
-c.append(b32)
+clist4.append(b32)
 a33 = 0
 for i in range(1050,1080):
     a33 += yuyi[i]
 b33 = a33/30
-c.append(b33)
+clist4.append(b33)
 a34 = 0
 for i in range(1080,1110):
     a34 += yuyi[i]
 b34 = a34/30
-c.append(b34)
+clist4.append(b34)
 a35 = 0
 for i in range(1110,1140):
     a35 += yuyi[i]
 b35 = a35/30
-c.append(b35)
+clist4.append(b35)
 a36 = 0
 for i in range(1140,1170):
     a36 += yuyi[i]
 b36 = a36/30
-c.append(b36)
+clist4.append(b36)
 a37 = 0
 for i in range(1170,1200):
     a37 += yuyi[i]
 b37 = a37/30
-c.append(b37)
+clist4.append(b37)
 a38 = 0
 for i in range(1200,1230):
     a38 += yuyi[i]
 b38 = a38/30
-c.append(b38)
+clist5.append(b38)
 a39 = 0
 for i in range(1230,1260):
     a39 += yuyi[i]
 b39 = a39/30
-c.append(b39)
+clist5.append(b39)
 a40 = 0
 for i in range(1260,1290):
     a40 += yuyi[i]
 b40 = a40/30
-c.append(b40)
+clist5.append(b40)
 a41 = 0
 for i in range(1290,1320):
     a41 += yuyi[i]
 b41 = a41/30
-c.append(b41)
+clist5.append(b41)
 c41 = 0
 for i in range(1320,1350):
     c41 += yuyi[i]
 d41 = c41/30
-c.append(d41)
+clist5.append(d41)
 a42 = 0
 for i in range(1350,1380):
     a42 += yuyi[i]
 b42 = a42/30
-c.append(b42)
+clist5.append(b42)
 a43 = 0
 for i in range(1380,1410):
     a43 += yuyi[i]
 b43= a43/30
-c.append(b43)
+clist5.append(b43)
 a44 = 0
 for i in range(1410,1440):
     a44 += yuyi[i]
 b44 = a44/30
-c.append(b44)
+clist5.append(b44)
 a45 = 0
 for i in range(1440,1470):
     a45 += yuyi[i]
 b45 = a45/30
-c.append(b45)
+clist5.append(b45)
 a46 = 0
 for i in range(1470,1500):
     a46 += yuyi[i]
 b46 = a46/30
-c.append(b46)
+clist5.append(b46)
 a47 = 0
 for i in range(1500,1530):
     a47 += yuyi[i]
 b47 = a47/30
-c.append(b47)
+clist6.append(b47)
 a48 = 0
 for i in range(1530,1560):
     a48 += yuyi[i]
 b48 = a48/30
-c.append(b48)
+clist6.append(b48)
 a49 = 0
 for i in range(1560,1590):
     a49 += yuyi[i]
 b49 = a49/30
-c.append(b49)
+clist6.append(b49)
 a50 = 0
 for i in range(1590,1620):
     a50 += yuyi[i]
 b50 = a50/30
-c.append(b50)
+clist6.append(b50)
 a51 = 0
 for i in range(1620,1650):
     a51 += yuyi[i]
 b51 = a51/30
-c.append(b51)
+clist6.append(b51)
 a52 = 0
 for i in range(1650,1680):
     a52 += yuyi[i]
 b52 = a52/30
-c.append(b52)
+clist6.append(b52)
 a53 = 0
 for i in range(1680,1710):
     a53 += yuyi[i]
 b53 = a53/30
-c.append(b53)
+clist6.append(b53)
 a54 = 0
 for i in range(1710,1740):
     a54 += yuyi[i]
 b54 = a54/30
-c.append(b54)
+clist6.append(b54)
 a55 = 0
 for i in range(1740,1770):
     a55 += yuyi[i]
 b55 = a55/30
-c.append(b55)
+clist6.append(b55)
 a56 = 0
 for i in range(1770,1800):
     a56 += yuyi[i]
 b56 = a56/30
-c.append(b56)
+clist6.append(b56)
+'''
 a57 = 0
 for i in range(1800,1830):
     a57 += yuyi[i]
@@ -364,12 +369,21 @@ for i in range(2070,2100):
     a66 += yuyi[i]
 b66 = a66/30
 c.append(b66)
-
-
-
-print(c)
-print(len(c))
 '''
+
+
+print("clist1")
+print(clist1)
+print("clist2")
+print(clist2)
+print("clist3")
+print(clist3)
+print("clist4")
+print(clist4)
+print("clist5")
+print(clist5)
+print("clist6")
+print(clist6)
 '''
 华东
 0.8782473503663317    4       上海迪士尼乐园
